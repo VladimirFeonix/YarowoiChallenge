@@ -304,38 +304,152 @@ function removeShuffleAnimationFromButton(button) {
     }
 }
 
+/**
+ * Start the slot machine animation for all cards
+ */
+function startSlotMachineAnimation() {
+    const cards = document.querySelectorAll('.option');
+    const spinDuration = 2000; // 2 seconds of spinning
+    const spinInterval = 100; // Change hero every 100ms
+    const staggerDelay = 300; // Delay between cards stopping
+    
+    cards.forEach((card, index) => {
+        const attribute = card.getAttribute('data-attribute');
+        let spinCount = 0;
+        const maxSpins = (spinDuration + (index * staggerDelay)) / spinInterval;
+        
+        // Add spinning class for visual effects
+        card.classList.add('slot-spinning');
+        
+        const spinInterval_id = setInterval(() => {
+            // Get a random hero for this attribute
+            const randomHero = getRandomHero(attribute);
+            updateCardContent(card, randomHero, attribute);
+            
+            spinCount++;
+            
+            // Stop spinning for this card when its time is up
+            if (spinCount >= maxSpins) {
+                clearInterval(spinInterval_id);
+                
+                // Final hero selection (ensure it's different from previous)
+                const finalHero = getRandomHero(attribute);
+                updateCardContent(card, finalHero, attribute);
+                
+                // Remove spinning class and add landing animation
+                card.classList.remove('slot-spinning');
+                card.classList.add('slot-landing');
+                
+                // Remove landing animation after it completes
+                setTimeout(() => {
+                    card.classList.remove('slot-landing');
+                }, 500);
+                
+                // If this is the last card, enable the button again
+                if (index === cards.length - 1) {
+                    setTimeout(() => {
+                        const button = document.querySelector('.randomize-btn');
+                        button.disabled = false;
+                        button.style.opacity = '1';
+                        removeShuffleAnimationFromButton(button);
+                    }, 300);
+                }
+            }
+        }, spinInterval);
+    });
+}
+
+/**
+ * Update card content with new hero
+ * @param {HTMLElement} card - The card element to update
+ * @param {Object} hero - Hero object with name and image
+ * @param {string} attribute - Hero attribute type
+ */
+function updateCardContent(card, hero, attribute) {
+    const heroImg = card.querySelector('.hero-image');
+    const heroName = card.querySelector('.main');
+    
+    if (heroImg && heroName) {
+        heroImg.src = hero.image;
+        heroImg.alt = hero.name;
+        heroName.textContent = hero.name;
+    }
+}
+
+/**
+ * Start slot machine animation for a single card
+ * @param {HTMLElement} card - The card element to animate
+ * @param {string} attribute - Hero attribute type
+ */
+function startSingleSlotAnimation(card, attribute) {
+    const spinDuration = 1000; // 1 second for single card (shorter than full randomize)
+    const spinInterval = 80; // Slightly faster spinning for single card
+    const maxSpins = spinDuration / spinInterval;
+    
+    let spinCount = 0;
+    
+    // Add spinning class for visual effects
+    card.classList.add('slot-spinning');
+    
+    const spinInterval_id = setInterval(() => {
+        // Get a random hero for this attribute
+        const randomHero = getRandomHero(attribute);
+        updateCardContent(card, randomHero, attribute);
+        
+        spinCount++;
+        
+        // Stop spinning when time is up
+        if (spinCount >= maxSpins) {
+            clearInterval(spinInterval_id);
+            
+            // Final hero selection
+            const finalHero = getRandomHero(attribute);
+            updateCardContent(card, finalHero, attribute);
+            
+            // Remove spinning class and add landing animation
+            card.classList.remove('slot-spinning');
+            card.classList.add('slot-landing');
+            
+            // Remove landing animation after it completes
+            setTimeout(() => {
+                card.classList.remove('slot-landing');
+            }, 500);
+        }
+    }, spinInterval);
+}
+
 // =============================================================================
 // CORE FUNCTIONALITY
 // =============================================================================
 
 /**
- * Main function to randomize all hero cards
- * Includes animation effects and proper timing
+ * Main function to randomize all hero cards with slot machine animation
+ * Includes casino-style spinning effects and proper timing
  */
 function randomizeHeroes() {
     const container = document.getElementById('heroContainer');
     const button = document.querySelector('.randomize-btn');
     
-    // Start animations
+    // Disable button during animation
+    button.disabled = true;
+    button.style.opacity = '0.6';
+    
+    // Start button animation
     addShuffleAnimationToButton(button);
     
     const existingCards = container.querySelectorAll('.option');
-    addShuffleAnimationToCards(existingCards);
     
-    // Generate new cards after animation delay
-    setTimeout(() => {
+    // If no cards exist, create initial cards
+    if (existingCards.length === 0) {
         container.innerHTML = '';
-        isAnimationComplete = true;
-        
-        // Create cards for each attribute
         const attributes = ['strength', 'agility', 'intellect', 'universal'];
         attributes.forEach(attr => {
             container.appendChild(createHeroCard(attr));
         });
-        
-        // Clean up button animation
-        removeShuffleAnimationFromButton(button);
-    }, ANIMATION_DELAY);
+    }
+    
+    // Start slot machine animation on existing cards
+    startSlotMachineAnimation();
 }
 
 /**
@@ -364,27 +478,18 @@ function initializeApp() {
 }
 
 /**
- * Reroll a single hero card
+ * Reroll a single hero card with slot machine animation
  * @param {HTMLElement} card - The card element to reroll
  */
 function rerollSingleHero(card) {
     const attribute = card.getAttribute('data-attribute');
-    const newHero = getRandomHero(attribute);
     
-    // Update card content
-    const heroImg = card.querySelector('.hero-image');
-    const heroName = card.querySelector('.main');
+    // Prevent multiple clicks during animation
+    if (card.classList.contains('slot-spinning')) {
+        return;
+    }
     
-    // Add animation
-    card.classList.add('reroll-animation');
-    
-    // Update content after animation delay
-    setTimeout(() => {
-        heroImg.src = newHero.image;
-        heroImg.alt = newHero.name;
-        heroName.textContent = newHero.name;
-        card.classList.remove('reroll-animation');
-    }, 150);
+    startSingleSlotAnimation(card, attribute);
 }
 
 // =============================================================================
