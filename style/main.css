@@ -607,6 +607,13 @@ body {
         background-attachment: fixed;
     }
 
+    .top-sign {
+        top: 5px;
+        left: 5px;
+        font-size: 10px;
+        padding: 3px 6px;
+    }
+
     .name {
         font-size: 45px;
     }
@@ -680,6 +687,13 @@ body {
 
 /* Mobile Portrait */
 @media (max-width: 480px) {
+    .top-sign {
+        top: 3px;
+        left: 3px;
+        font-size: 9px;
+        padding: 2px 5px;
+    }
+
     .name {
         font-size: 32px;
     }
@@ -754,6 +768,13 @@ body {
 
 /* Extra Small Mobile Devices */
 @media (max-width: 360px) {
+    .top-sign {
+        top: 2px;
+        left: 2px;
+        font-size: 8px;
+        padding: 2px 4px;
+    }
+
     .name {
         font-size: 28px;
     }
