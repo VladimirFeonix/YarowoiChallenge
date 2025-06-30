@@ -67,9 +67,26 @@ a, u {
     background-position: center;
     background-repeat: no-repeat;
     cursor: pointer;
-    transition: .5s cubic-bezier(0.05, 0.61, 0.41, 0.95);
+    transition: all 0.5s cubic-bezier(0.05, 0.61, 0.41, 0.95), opacity 0.2s ease;
     border-radius: 20px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    user-select: none;
+}
+
+.option.active::after {
+    content: 'Double click to reroll';
+    position: absolute;
+    bottom: 60px;
+    left: 20px;
+    color: white;
+    font-size: 0.8rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 3;
+}
+
+.option.active:hover::after {
+    opacity: 0.7;
 }
 
 .option.active {
@@ -147,15 +164,39 @@ a, u {
 }
 
 .label {
-    margin: 0 auto;
-    padding-top: 300px;
     display: flex;
+    align-items: center;
     position: absolute;
-    right: 0;
-    height: 40px;
-    transition: .5s cubic-bezier(0.05, 0.61, 0.41, 0.95);
+    bottom: 20px;
+    left: 20px;
     z-index: 2;
-    
+}
+
+.attribute-icon {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    margin-right: 10px;
+    filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.7));
+}
+
+.option:not(.active) .attribute-icon {
+    width: 24px;
+    height: 24px;
+}
+
+/* Цвета для разных атрибутов (опционально) */
+.option.strength .attribute-icon {
+    filter: drop-shadow(0 0 2px rgba(255, 50, 50, 0.7));
+}
+.option.agility .attribute-icon {
+    filter: drop-shadow(0 0 2px rgba(50, 255, 50, 0.7));
+}
+.option.intellect .attribute-icon {
+    filter: drop-shadow(0 0 2px rgba(50, 50, 255, 0.7));
+}
+.option.universal .attribute-icon {
+    filter: drop-shadow(0 0 2px rgba(180, 50, 255, 0.7));
 }
 
 .option.active .label {
@@ -173,11 +214,36 @@ a, u {
     justify-content: center;
     align-items: center;
     min-width: 40px;
-    max-width: 40px;
+    width: 40px;
     height: 40px;
     border-radius: 100%;
     background-color: white;
-    color: #333;
+    background-size: 60%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Иконки атрибутов Dota 2 */
+.icon[data-attribute="strength"] {
+    background-image: url('/dotarandom/img/agil.png');
+}
+
+.icon[data-attribute="agility"] {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%232ed573" d="M12 2L2 22h20z"/></svg>');
+}
+
+.icon[data-attribute="intellect"] {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%233742fa" d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2z"/></svg>');
+}
+
+.icon[data-attribute="universal"] {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23a55eea" d="M12 2L2 12l10 10 10-10zM12 6l6 6-6 6-6-6z"/></svg>');
+}
+
+/* Эффект при наведении */
+.option:hover .icon {
+    transform: scale(1.1);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
 }
 
 .info {
@@ -233,4 +299,106 @@ footer {
 
 .copyright, h3 {
     color: white;
+}
+
+
+/* Мобильные стили */
+@media (max-width: 768px) {
+    body {
+        overflow: auto;
+        min-height: auto;
+        padding: 10px;
+        background-attachment: fixed;
+    }
+
+    .options {
+        flex-direction: column;
+        height: auto;
+        min-width: auto;
+        width: 100%;
+        max-width: 100%;
+        margin: 10px 0;
+    }
+
+    .option {
+        width: 100%;
+        height: 80px;
+        margin: 5px 0;
+        min-width: auto;
+    }
+
+    .option.active {
+        height: 300px;
+        margin: 5px 0;
+    }
+
+    .randomize-btn {
+        width: 90%;
+        padding: 12px;
+        font-size: 1.1em;
+        margin: 10px auto;
+    }
+
+    .site-header .header-container {
+        flex-direction: column;
+        padding: 10px;
+    }
+
+    .main-nav {
+        padding: 10px 0;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .nav-link {
+        padding: 5px 10px;
+        font-size: 0.9em;
+    }
+
+    .name {
+        font-size: 40px;
+        text-align: center;
+    }
+}
+
+/* Для очень маленьких экранов */
+@media (max-width: 480px) {
+    .option.active {
+        height: 250px;
+    }
+
+    .info .main {
+        font-size: 1rem;
+    }
+
+    .info .sub {
+        font-size: 0.8rem;
+    }
+}
+
+/* Добавьте в конец файла main.css */
+.option {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+@media (hover: none) {
+    .option.active::after {
+        content: 'Tap twice to reroll';
+        opacity: 0.7;
+    }
+}
+
+/* Анимация переролла */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-5px); }
+    40% { transform: translateX(5px); }
+    60% { transform: translateX(-5px); }
+    80% { transform: translateX(5px); }
+}
+
+.reroll-animation {
+    animation: shake 0.3s cubic-bezier(.36,.07,.19,.97) both;
 }
