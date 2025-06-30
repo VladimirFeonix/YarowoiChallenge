@@ -196,9 +196,10 @@ let lastTap = 0;
  * Get a random hero from the specified attribute category
  * Avoids recently picked heroes
  * @param {string} attribute - The hero attribute (strength, agility, intellect, universal)
+ * @param {boolean} updateHistory - Whether to update the pick history (default: false)
  * @returns {Object} Random hero object with name and image
  */
-function getRandomHero(attribute) {
+function getRandomHero(attribute, updateHistory = false) {
     const heroList = HEROES[attribute];
     
     // Filter out recently picked heroes
@@ -207,12 +208,22 @@ function getRandomHero(attribute) {
         !recentPicks.includes(hero.name)
     );
     
-    // Use full list if all heroes were recently picked
-    const sourceList = availableHeroes.length > 0 ? availableHeroes : heroList;
+    // Use full list if all heroes were recently picked, but clear history
+    let sourceList;
+    if (availableHeroes.length > 0) {
+        sourceList = availableHeroes;
+    } else {
+        // Reset history when all heroes have been picked
+        pickedHeroHistory[attribute] = [];
+        sourceList = heroList;
+    }
+    
     const randomHero = sourceList[Math.floor(Math.random() * sourceList.length)];
     
-    // Update history
-    updateHeroHistory(attribute, randomHero.name);
+    // Only update history when explicitly requested (for final selections)
+    if (updateHistory) {
+        updateHeroHistory(attribute, randomHero.name);
+    }
     
     return randomHero;
 }
@@ -250,7 +261,7 @@ function capitalizeFirst(str) {
  * @returns {HTMLElement} Complete hero card element
  */
 function createHeroCard(attribute) {
-    const hero = getRandomHero(attribute);
+    const hero = getRandomHero(attribute, true); // Update history for initial cards
     const card = document.createElement('div');
     
     card.className = `option ${attribute}`;
@@ -322,8 +333,8 @@ function startSlotMachineAnimation() {
         card.classList.add('slot-spinning');
         
         const spinInterval_id = setInterval(() => {
-            // Get a random hero for this attribute
-            const randomHero = getRandomHero(attribute);
+            // Get a random hero for this attribute (don't update history during animation)
+            const randomHero = getRandomHero(attribute, false);
             updateCardContent(card, randomHero, attribute);
             
             spinCount++;
@@ -332,8 +343,8 @@ function startSlotMachineAnimation() {
             if (spinCount >= maxSpins) {
                 clearInterval(spinInterval_id);
                 
-                // Final hero selection (ensure it's different from previous)
-                const finalHero = getRandomHero(attribute);
+                // Final hero selection (update history this time)
+                const finalHero = getRandomHero(attribute, true);
                 updateCardContent(card, finalHero, attribute);
                 
                 // Remove spinning class and add landing animation
@@ -392,8 +403,8 @@ function startSingleSlotAnimation(card, attribute) {
     card.classList.add('slot-spinning');
     
     const spinInterval_id = setInterval(() => {
-        // Get a random hero for this attribute
-        const randomHero = getRandomHero(attribute);
+        // Get a random hero for this attribute (don't update history during animation)
+        const randomHero = getRandomHero(attribute, false);
         updateCardContent(card, randomHero, attribute);
         
         spinCount++;
@@ -402,8 +413,8 @@ function startSingleSlotAnimation(card, attribute) {
         if (spinCount >= maxSpins) {
             clearInterval(spinInterval_id);
             
-            // Final hero selection
-            const finalHero = getRandomHero(attribute);
+            // Final hero selection (update history this time)
+            const finalHero = getRandomHero(attribute, true);
             updateCardContent(card, finalHero, attribute);
             
             // Remove spinning class and add landing animation
