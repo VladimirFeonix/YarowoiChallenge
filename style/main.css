@@ -607,6 +607,10 @@ body {
         background-attachment: fixed;
     }
 
+    .name {
+        font-size: 45px;
+    }
+
     .options {
         grid-template-columns: repeat(2, 1fr);
         gap: 15px;
@@ -676,6 +680,10 @@ body {
 
 /* Mobile Portrait */
 @media (max-width: 480px) {
+    .name {
+        font-size: 32px;
+    }
+
     .options {
         grid-template-columns: repeat(2, 1fr);
         gap: 12px;
@@ -741,5 +749,45 @@ body {
     /* Disable hover effects for touch devices */
     .option:hover::after {
         display: none;
+    }
+}
+
+/* Extra Small Mobile Devices */
+@media (max-width: 360px) {
+    .name {
+        font-size: 28px;
+    }
+    
+    .subtitle {
+        font-size: 11px;
+        letter-spacing: 0.3px;
+    }
+    
+    .options {
+        gap: 10px;
+        padding: 12px;
+        min-width: auto;
+        width: calc(100% - 20px);
+    }
+    
+    .option {
+        height: 220px;
+    }
+    
+    .hero-image {
+        height: 115px;
+    }
+    
+    .attribute-info {
+        top: 130px;
+    }
+    
+    .label {
+        height: 55px;
+        padding: 12px 10px;
+    }
+    
+    .main {
+        font-size: 0.8rem;
     }
 }
