@@ -1,7 +1,106 @@
+/**
+ * Dota 2 Hero Randomizer - Main Stylesheet
+ * Yarowoi Challenge Edition
+ * 
+ * A modern, responsive design for the hero randomizer application
+ * Developed by CHESIRE & GRIHLADIN
+ */
+
+/* =============================================================================
+   TABLE OF CONTENTS
+   ============================================================================= */
+/*
+   1. Fonts & Variables
+   2. Global Styles & Reset
+   3. Header & Title Styles
+   4. Hero Cards Container
+   5. Individual Hero Cards
+   6. Card Components (Image, Attribute, Label)
+   7. Attribute Color Variations
+   8. Randomize Button
+   9. Footer & Credits
+   10. Animations
+   11. Responsive Design
+*/
+
+/* =============================================================================
+   1. FONTS & VARIABLES
+   ============================================================================= */
+
 @font-face {
     font-family: "Marvin";
     src: url(/dotarandom/fonts/ofont.ru_Marvin.ttf);
 }
+
+:root {
+    /* Color Palette */
+    --primary-gradient: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+    --title-gradient: radial-gradient(circle, rgba(255, 0, 0, 1) 0%, rgba(136, 20, 156, 1) 49%, rgba(0, 204, 180, 0.77) 100%);
+    --button-gradient: linear-gradient(135deg, #667eea, #764ba2);
+    --button-hover-gradient: linear-gradient(135deg, #7b8ff0, #8b5fcf);
+    --card-gradient: linear-gradient(145deg, rgba(15, 15, 35, 0.8), rgba(25, 25, 55, 0.9));
+    --label-gradient: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(20, 20, 40, 0.95));
+    --attribute-gradient: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(20, 20, 40, 0.9));
+    
+    /* Colors */
+    --white: rgba(255, 255, 255, 1);
+    --white-90: rgba(255, 255, 255, 0.9);
+    --white-80: rgba(255, 255, 255, 0.8);
+    --white-70: rgba(255, 255, 255, 0.7);
+    --white-15: rgba(255, 255, 255, 0.15);
+    --white-10: rgba(255, 255, 255, 0.1);
+    --white-08: rgba(255, 255, 255, 0.08);
+    --black-80: rgba(0, 0, 0, 0.8);
+    --black-40: rgba(0, 0, 0, 0.4);
+    --black-30: rgba(0, 0, 0, 0.3);
+    
+    /* Attribute Colors */
+    --strength-color: rgba(255, 50, 50, 0.7);
+    --agility-color: rgba(50, 255, 50, 0.7);
+    --intellect-color: rgba(50, 50, 255, 0.7);
+    --universal-color: rgba(180, 50, 255, 0.7);
+    
+    /* Spacing */
+    --spacing-xs: 5px;
+    --spacing-sm: 10px;
+    --spacing-md: 15px;
+    --spacing-lg: 20px;
+    --spacing-xl: 30px;
+    --spacing-xxl: 40px;
+    
+    /* Border Radius */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 15px;
+    --radius-xl: 20px;
+    --radius-xxl: 30px;
+    --radius-round: 50px;
+    
+    /* Shadows */
+    --shadow-sm: 0 4px 15px var(--black-30);
+    --shadow-md: 0 8px 25px var(--black-30);
+    --shadow-lg: 0 10px 30px var(--black-40);
+    --shadow-xl: 0 20px 40px var(--black-30);
+    
+    /* Transitions */
+    --transition-fast: 0.15s ease;
+    --transition-normal: 0.3s ease;
+    --transition-slow: 0.6s ease;
+    
+    /* Typography */
+    --font-family: "Marvin", sans-serif;
+    --font-size-xs: 0.7rem;
+    --font-size-sm: 0.8rem;
+    --font-size-md: 0.9rem;
+    --font-size-lg: 1.2rem;
+    --font-size-xl: 1.3rem;
+    --font-size-title: 70px;
+    --font-size-subtitle: 18px;
+}
+
+/* =============================================================================
+   2. GLOBAL STYLES & RESET
+   ============================================================================= */
 
 body {
     display: flex;
@@ -10,387 +109,311 @@ body {
     align-items: center;
     overflow: hidden;
     min-height: 100vh;
-    background-image: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
-    background-size: cover;
-    background-repeat: no-repeat;
-    font-family: 'Roboto', sans-serif;
-    transition: .25s;
-    font-family: "Marvin";
+    background: var(--primary-gradient);
     background-image: url(/dotarandom/img/1648968841_45-abrakadabra-fun-p-zadnii-plan-dlya-prezentatsii-54.jpg);
     background-size: cover;
     background-repeat: no-repeat;
+    font-family: var(--font-family);
+    transition: var(--transition-normal);
 }
 
-nav {
+/* =============================================================================
+   3. HEADER & TITLE STYLES
+   ============================================================================= */
+
+.site-header {
     text-align: center;
 }
 
-.main-nav {
-      padding-left:30px;
-  padding-right:30px;
+.header-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-a, u {
-  text-decoration: none;
-  color: white;
-  padding-right: 20px;
+.logo {
+    text-align: center;
 }
 
 .name {
-    font-size: 50px;
-      font-size: 70px;
-  font-weight: 600;
-  background-image: radial-gradient(circle,rgba(255, 0, 0, 1) 0%, rgba(136, 20, 156, 1) 49%, rgba(0, 204, 180, 0.77) 100%);
-  color: transparent;
-  background-clip: text;
-  -webkit-background-clip: text;
+    font-size: var(--font-size-title);
+    font-weight: 600;
+    background-image: var(--title-gradient);
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+    margin: 0;
 }
 
-.options {
-    display: flex;
-    flex-direction: row;
-    align-items: stretch;
-    overflow: hidden;
-    min-width: 600px;
-    max-width: 900px;
-    width: calc(100% - 100px);
-    height: 400px;
-    margin: 20px 0;
+.subtitle {
+    font-size: var(--font-size-subtitle);
+    font-weight: 400;
+    color: var(--white-80);
+    margin: var(--spacing-xs) 0 0 0;
+    text-shadow: 0 1px 3px var(--black-80);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-align: center;
 }
+
+/* =============================================================================
+   4. HERO CARDS CONTAINER
+   ============================================================================= */
+
+.options {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+    min-width: 900px;
+    max-width: 1200px;
+    width: calc(100% - 80px);
+    margin: var(--spacing-xxl) 0;
+    padding: var(--spacing-xl);
+    background: var(--white-08);
+    border-radius: var(--radius-xxl);
+    backdrop-filter: blur(15px);
+    border: 2px solid var(--white-15);
+    box-shadow: var(--shadow-xl);
+}
+
+/* =============================================================================
+   5. INDIVIDUAL HERO CARDS
+   ============================================================================= */
 
 .option {
     position: relative;
     overflow: hidden;
-    min-width: 60px;
-    margin: 10px;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    cursor: pointer;
-    transition: all 0.5s cubic-bezier(0.05, 0.61, 0.41, 0.95), opacity 0.2s ease;
-    border-radius: 20px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    height: 380px;
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
     user-select: none;
+    border: 3px solid var(--white-10);
+    background: var(--card-gradient);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
 }
 
-.option.active::after {
-    content: 'Double click to reroll';
+/* Hover tooltip for rerandomization */
+.option:hover::after {
+    content: 'Click to rerandom';
     position: absolute;
-    bottom: 60px;
-    left: 20px;
-    color: white;
-    font-size: 0.8rem;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    z-index: 3;
+    top: var(--spacing-md);
+    right: var(--spacing-md);
+    color: var(--white);
+    font-size: var(--font-size-sm);
+    opacity: 1;
+    z-index: 4;
+    background: var(--black-80);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--radius-sm);
+    backdrop-filter: blur(5px);
+    border: 1px solid var(--white-15);
+    font-weight: 500;
+    text-shadow: none;
+    transition: opacity var(--transition-normal);
 }
 
-.option.active:hover::after {
-    opacity: 0.7;
-}
-
-.option.active {
-    flex-grow: 10000;
-    transform: scale(1);
-    max-width: 600px;
-    margin: 0;
-    border-radius: 30px;
-    background-size: cover;
-    background-position: center;
-    
-}
-
-.option:not(.active) {
-    flex-grow: 1;
-    border-radius: 15px;
-    background-size: cover;
-    background-position: center;
-}
-
+/* Card gradient overlay */
 .option::before {
-    content: ''; /* Это свойство было отсутствует */
+    content: '';
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.4);
+    background: linear-gradient(
+        180deg,
+        transparent 0%,
+        transparent 50%,
+        rgba(0, 0, 0, 0.1) 70%,
+        var(--black-40) 100%
+    );
     z-index: 1;
+    border-radius: var(--radius-xl);
 }
 
-.option.active::before {
-    background: rgba(0, 0, 0, 0.2);
+/* =============================================================================
+   6. CARD COMPONENTS (IMAGE, ATTRIBUTE, LABEL)
+   ============================================================================= */
+
+/* Hero Image */
+.hero-image {
+    position: absolute;
+    top: var(--spacing-md);
+    left: var(--spacing-md);
+    width: calc(100% - 30px);
+    height: 205px;
+    object-fit: cover;
+    object-position: center;
+    z-index: 0;
+    border-radius: var(--radius-md);
 }
 
-.option.strength {
-    background: linear-gradient(135deg, #ff4757, #ff3838);
-        background-size: cover;
-        background-position: center;
-    background-repeat: no-repeat;
-}
-
-.option.agility {
-    background: linear-gradient(135deg, #2ed573, #1dd1a1);
-        background-size: cover;
-        background-position: center;
-    background-repeat: no-repeat;
-}
-
-.option.intellect {
-    background: linear-gradient(135deg, #3742fa, #70a1ff);
-        background-size: cover;
-        background-position: center;
-    background-repeat: no-repeat;
-}
-
-.option.universal {
-    background: linear-gradient(135deg, #a55eea, #8b5cf6);
-        background-size: cover;
-        background-position: center;
-    background-repeat: no-repeat;
-}
-
-
-
-.option.active .shadow {
-    box-shadow: inset 0 -120px 120px -120px rgba(0, 0, 0, 0.7), 
-                inset 0 -120px 120px -100px rgba(0, 0, 0, 0.6);
-}
-
-.option:not(.active) .shadow {
-    bottom: -40px;
-    box-shadow: inset 0 -120px 0px -120px rgba(0, 0, 0, 0.7), 
-                inset 0 -120px 0px -100px rgba(0, 0, 0, 0.6);
-}
-
-.label {
+/* Attribute Information Section */
+.attribute-info {
+    position: absolute;
+    top: 230px;
+    left: var(--spacing-lg);
+    right: var(--spacing-lg);
     display: flex;
     align-items: center;
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
+    justify-content: center;
     z-index: 2;
+    background: var(--attribute-gradient);
+    padding: var(--spacing-xs) var(--spacing-md);
+    border-radius: var(--radius-md);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--white-10);
+    box-shadow: var(--shadow-sm);
 }
 
 .attribute-icon {
-    width: 32px;
-    height: 32px;
-    object-fit: contain;
-    margin-right: 10px;
-    filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.7));
-}
-
-.option:not(.active) .attribute-icon {
     width: 24px;
     height: 24px;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 4px var(--black-80));
 }
 
-/* Цвета для разных атрибутов (опционально) */
-.option.strength .attribute-icon {
-    filter: drop-shadow(0 0 2px rgba(255, 50, 50, 0.7));
-}
-.option.agility .attribute-icon {
-    filter: drop-shadow(0 0 2px rgba(50, 255, 50, 0.7));
-}
-.option.intellect .attribute-icon {
-    filter: drop-shadow(0 0 2px rgba(50, 50, 255, 0.7));
-}
-.option.universal .attribute-icon {
-    filter: drop-shadow(0 0 2px rgba(180, 50, 255, 0.7));
+.attribute-name {
+    color: var(--white);
+    font-size: var(--font-size-md);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-left: var(--spacing-xs);
+    text-shadow: 0 1px 3px var(--black-80);
 }
 
-.option.active .label {
-    bottom: 20px;
-    left: 20px;
-}
-
-.option:not(.active) .label {
-    bottom: 10px;
-    left: 10px;
-}
-
-.icon {
+/* Hero Name Label */
+.label {
     display: flex;
-    justify-content: center;
     align-items: center;
-    min-width: 40px;
-    width: 40px;
-    height: 40px;
-    border-radius: 100%;
-    background-color: white;
-    background-size: 60%;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-
-/* Иконки атрибутов Dota 2 */
-.icon[data-attribute="strength"] {
-    background-image: url('/dotarandom/img/agil.png');
-}
-
-.icon[data-attribute="agility"] {
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%232ed573" d="M12 2L2 22h20z"/></svg>');
-}
-
-.icon[data-attribute="intellect"] {
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%233742fa" d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2z"/></svg>');
-}
-
-.icon[data-attribute="universal"] {
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23a55eea" d="M12 2L2 12l10 10 10-10zM12 6l6 6-6 6-6-6z"/></svg>');
-}
-
-/* Эффект при наведении */
-.option:hover .icon {
-    transform: scale(1.1);
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+    justify-content: center;
+    position: absolute;
+    bottom: var(--spacing-md);
+    left: var(--spacing-md);
+    right: var(--spacing-md);
+    z-index: 3;
+    background: var(--label-gradient);
+    padding: 18px var(--spacing-lg);
+    border-radius: var(--radius-md);
+    backdrop-filter: blur(15px);
+    border: 2px solid var(--white-15);
+    box-shadow: var(--shadow-md);
+    height: 65px;
+    box-sizing: border-box;
 }
 
 .info {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin-left: 10px;
-    color: white;
-}
-
-.info > div {
-    position: relative;
-    transition: .5s cubic-bezier(0.05, 0.61, 0.41, 0.95), opacity .5s ease-out;
+    align-items: center;
+    flex: 1;
+    color: var(--white);
+    min-width: 0;
+    text-align: center;
 }
 
 .main {
     font-weight: bold;
-    font-size: 1.2rem;
+    font-size: var(--font-size-lg);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+    margin-bottom: 4px;
+    color: var(--white);
+    letter-spacing: 0.5px;
+    line-height: 1.2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    overflow: hidden;
+    word-wrap: break-word;
+    hyphens: auto;
 }
 
-.sub {
-    font-size: 1rem;
-    opacity: 0.9;
+/* =============================================================================
+   7. ATTRIBUTE COLOR VARIATIONS
+   ============================================================================= */
+
+.option.strength .attribute-icon {
+    filter: drop-shadow(0 0 2px var(--strength-color));
 }
+
+.option.agility .attribute-icon {
+    filter: drop-shadow(0 0 2px var(--agility-color));
+}
+
+.option.intellect .attribute-icon {
+    filter: drop-shadow(0 0 2px var(--intellect-color));
+}
+
+.option.universal .attribute-icon {
+    filter: drop-shadow(0 0 2px var(--universal-color));
+}
+
+/* =============================================================================
+   8. RANDOMIZE BUTTON
+   ============================================================================= */
 
 .randomize-btn {
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    background: var(--button-gradient);
     border: none;
-    color: white;
-    padding: 15px 40px;
-    font-size: 1.3em;
-    border-radius: 50px;
+    color: var(--white);
+    padding: var(--spacing-md) var(--spacing-xxl);
+    font-size: var(--font-size-xl);
+    border-radius: var(--radius-round);
     cursor: pointer;
-    transition: all 0.3s ease;
     box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
     font-weight: bold;
-    margin: 20px 0;
+    margin: var(--spacing-lg) 0;
     z-index: 10;
+    transition: all var(--transition-normal);
+    position: relative;
+    overflow: hidden;
+    font-family: var(--font-family);
 }
 
 .randomize-btn:hover {
-    transform: translateY(-3px);
+    transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+    background: var(--button-hover-gradient);
 }
 
-/* Остальные стили остаются без изменений */
+.randomize-btn:active {
+    transform: translateY(0);
+}
 
+/* =============================================================================
+   9. FOOTER & CREDITS
+   ============================================================================= */
 
-footer {
+.developer-credits {
+    margin-top: var(--spacing-xl);
+    padding: var(--spacing-lg);
     text-align: center;
+    color: var(--white-70);
+    font-size: var(--font-size-md);
+    font-weight: 500;
+    letter-spacing: 1px;
 }
 
-
-.copyright, h3 {
-    color: white;
+.developer-credits p {
+    margin: 0;
+    text-shadow: 0 1px 3px var(--black-80);
 }
 
-
-/* Мобильные стили */
-@media (max-width: 768px) {
-    body {
-        overflow: auto;
-        min-height: auto;
-        padding: 10px;
-        background-attachment: fixed;
-    }
-
-    .options {
-        flex-direction: column;
-        height: auto;
-        min-width: auto;
-        width: 100%;
-        max-width: 100%;
-        margin: 10px 0;
-    }
-
-    .option {
-        width: 100%;
-        height: 80px;
-        margin: 5px 0;
-        min-width: auto;
-    }
-
-    .option.active {
-        height: 300px;
-        margin: 5px 0;
-    }
-
-    .randomize-btn {
-        width: 90%;
-        padding: 12px;
-        font-size: 1.1em;
-        margin: 10px auto;
-    }
-
-    .site-header .header-container {
-        flex-direction: column;
-        padding: 10px;
-    }
-
-    .main-nav {
-        padding: 10px 0;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-
-    .nav-link {
-        padding: 5px 10px;
-        font-size: 0.9em;
-    }
-
-    .name {
-        font-size: 40px;
-        text-align: center;
-    }
+.developer-names {
+    color: var(--white-90);
+    font-weight: bold;
 }
 
-/* Для очень маленьких экранов */
-@media (max-width: 480px) {
-    .option.active {
-        height: 250px;
-    }
+/* =============================================================================
+   10. ANIMATIONS
+   ============================================================================= */
 
-    .info .main {
-        font-size: 1rem;
-    }
-
-    .info .sub {
-        font-size: 0.8rem;
-    }
-}
-
-/* Добавьте в конец файла main.css */
-.option {
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
-}
-
-@media (hover: none) {
-    .option.active::after {
-        content: 'Tap twice to reroll';
-        opacity: 0.7;
-    }
-}
-
-/* Анимация переролла */
+/* Card Reroll Animation */
 @keyframes shake {
     0%, 100% { transform: translateX(0); }
     20% { transform: translateX(-5px); }
@@ -401,4 +424,228 @@ footer {
 
 .reroll-animation {
     animation: shake 0.3s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+/* Button Shuffle Animation */
+@keyframes shuffle {
+    0% { transform: scale(1) rotate(0deg); }
+    25% { transform: scale(0.95) rotate(-3deg); }
+    50% { transform: scale(0.9) rotate(3deg); }
+    75% { transform: scale(0.95) rotate(-2deg); }
+    100% { transform: scale(1) rotate(0deg); }
+}
+
+.shuffle-animation {
+    animation: shuffle var(--transition-slow) cubic-bezier(.36,.07,.19,.97) both;
+}
+
+/* Cards Shuffle Animation */
+@keyframes shuffleCards {
+    0% { transform: translateY(0) scale(1); opacity: 1; }
+    25% { transform: translateY(-10px) scale(0.98); opacity: 0.8; }
+    50% { transform: translateY(-5px) scale(0.95); opacity: 0.6; }
+    75% { transform: translateY(-2px) scale(0.98); opacity: 0.8; }
+    100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+.cards-shuffle-animation {
+    animation: shuffleCards 0.8s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+/* =============================================================================
+   11. RESPONSIVE DESIGN
+   ============================================================================= */
+
+/* Tablet Styles */
+@media (max-width: 1024px) {
+    .options {
+        min-width: auto;
+        width: 95%;
+        gap: 20px;
+        padding: 25px;
+    }
+    
+    .option {
+        height: 320px;
+    }
+    
+    .hero-image {
+        height: 165px;
+    }
+    
+    .attribute-info {
+        top: 185px;
+        padding: 6px 12px;
+    }
+    
+    .attribute-icon {
+        width: 20px;
+        height: 20px;
+    }
+    
+    .attribute-name {
+        font-size: var(--font-size-sm);
+        margin-left: 6px;
+    }
+    
+    .label {
+        height: 58px;
+        padding: 15px 18px;
+    }
+    
+    .main {
+        font-size: 1.1rem;
+        line-height: 1.1;
+    }
+    
+    .subtitle {
+        font-size: 16px;
+        letter-spacing: 1.5px;
+    }
+}
+
+/* Mobile Landscape and Small Tablets */
+@media (max-width: 768px) {
+    body {
+        overflow: auto;
+        min-height: auto;
+        padding: 10px 10px 20px 10px;
+        background-attachment: fixed;
+    }
+
+    .options {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        padding: 20px;
+    }
+    
+    .option {
+        height: 280px;
+        border-radius: var(--radius-lg);
+    }
+    
+    .hero-image {
+        top: 12px;
+        left: 12px;
+        width: calc(100% - 24px);
+        height: 145px;
+        border-radius: var(--radius-md);
+    }
+    
+    .attribute-info {
+        top: 165px;
+        left: 15px;
+        right: 15px;
+        padding: 5px 10px;
+    }
+    
+    .attribute-icon {
+        width: 18px;
+        height: 18px;
+    }
+    
+    .attribute-name {
+        font-size: 0.75rem;
+        margin-left: 5px;
+    }
+    
+    .option::before {
+        border-radius: var(--radius-lg);
+    }
+    
+    .label {
+        bottom: 12px;
+        left: 12px;
+        right: 12px;
+        padding: 16px 15px;
+        border-radius: var(--radius-md);
+        height: 68px;
+        box-sizing: border-box;
+    }
+    
+    .main {
+        font-size: 1rem;
+        line-height: 1.1;
+    }
+    
+    .developer-credits {
+        margin-top: 20px;
+        padding: 15px;
+        font-size: var(--font-size-sm);
+    }
+    
+    .subtitle {
+        font-size: 14px;
+        letter-spacing: 1px;
+    }
+}
+
+/* Mobile Portrait */
+@media (max-width: 480px) {
+    .options {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        padding: 15px;
+    }
+    
+    .option {
+        height: 240px;
+    }
+    
+    .hero-image {
+        top: 8px;
+        left: 8px;
+        width: calc(100% - 16px);
+        height: 125px;
+    }
+    
+    .attribute-info {
+        top: 140px;
+        left: 12px;
+        right: 12px;
+        padding: 4px 8px;
+    }
+    
+    .attribute-icon {
+        width: 16px;
+        height: 16px;
+    }
+    
+    .attribute-name {
+        font-size: var(--font-size-xs);
+        margin-left: 4px;
+    }
+    
+    .label {
+        bottom: 10px;
+        left: 10px;
+        right: 10px;
+        padding: 14px 12px;
+        height: 58px;
+        box-sizing: border-box;
+    }
+    
+    .main {
+        font-size: 0.9rem;
+        line-height: 1.1;
+    }
+    
+    .developer-credits {
+        margin-top: 15px;
+        padding: 12px;
+        font-size: 0.75rem;
+    }
+    
+    .subtitle {
+        font-size: 12px;
+        letter-spacing: 0.5px;
+    }
+}
+
+/* Touch Device Optimizations */
+@media (hover: none) {
+    /* Disable hover effects for touch devices */
+    .option:hover::after {
+        display: none;
+    }
 }

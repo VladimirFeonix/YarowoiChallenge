@@ -1,5 +1,38 @@
-// Dota 2 heroes data with image URLs - complete list
-const heroes = {
+/**
+ * Dota 2 Hero Randomizer
+ * FOR Yarowoi Challenge
+ * 
+ * A web application for randomizing Dota 2 heroes by attribute
+ * Developed by CHESIRE & GRIHLADIN
+ */
+
+// =============================================================================
+// CONSTANTS & CONFIGURATION
+// =============================================================================
+
+// Maximum number of heroes to remember in history to avoid repetition
+const MAX_HISTORY = 8;
+
+// Animation delay for card shuffle effect (in milliseconds)
+const ANIMATION_DELAY = 400;
+
+// Tap delay for mobile double-tap detection (in milliseconds)
+const TAP_DELAY = 300;
+
+// Attribute icon URLs from Dota 2 CDN
+const ATTRIBUTE_ICONS = {
+    strength: 'https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/icons/hero_strength.png',
+    agility: 'https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/icons/hero_agility.png',
+    intellect: 'https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/icons/hero_intelligence.png',
+    universal: 'https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/icons/hero_universal.png'
+};
+
+// =============================================================================
+// HERO DATA
+// =============================================================================
+
+// Complete Dota 2 heroes database with image URLs
+const HEROES = {
     strength: [
         { name: "Alchemist", image: "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/alchemist.png" },
         { name: "Axe", image: "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/axe.png" },
@@ -137,71 +170,103 @@ const heroes = {
     ]
 };
 
-const attributeIcons = {
-    strength: "fa-dumbbell",
-    agility: "fa-bolt",
-    intellect: "fa-brain",
-    universal: "fa-star"
-};
+// =============================================================================
+// STATE MANAGEMENT
+// =============================================================================
 
-// Храним историю последних выбранных героев
+// Track recently picked heroes to avoid repetition
 const pickedHeroHistory = {
     strength: [],
     agility: [],
     intellect: [],
     universal: []
 };
-const MAX_HISTORY = 10;
 
-// Флаг для отслеживания завершения анимации
+// Flag to track animation completion status
 let isAnimationComplete = true;
 
+// Mobile touch tracking for double-tap detection
+let lastTap = 0;
+
+// =============================================================================
+// UTILITY FUNCTIONS
+// =============================================================================
+
+/**
+ * Get a random hero from the specified attribute category
+ * Avoids recently picked heroes
+ * @param {string} attribute - The hero attribute (strength, agility, intellect, universal)
+ * @returns {Object} Random hero object with name and image
+ */
 function getRandomHero(attribute) {
-    const heroList = heroes[attribute];
+    const heroList = HEROES[attribute];
     
-    // Фильтруем героев, исключая недавно выбранных
+    // Filter out recently picked heroes
     const recentPicks = pickedHeroHistory[attribute];
     const availableHeroes = heroList.filter(hero => 
         !recentPicks.includes(hero.name)
     );
     
-    // Если все герои были недавно, используем полный список
+    // Use full list if all heroes were recently picked
     const sourceList = availableHeroes.length > 0 ? availableHeroes : heroList;
     const randomHero = sourceList[Math.floor(Math.random() * sourceList.length)];
     
-    // Обновляем историю
-    pickedHeroHistory[attribute].push(randomHero.name);
-    if (pickedHeroHistory[attribute].length > MAX_HISTORY) {
-        pickedHeroHistory[attribute].shift();
-    }
+    // Update history
+    updateHeroHistory(attribute, randomHero.name);
     
     return randomHero;
 }
 
+/**
+ * Update the hero selection history for an attribute
+ * @param {string} attribute - The hero attribute
+ * @param {string} heroName - The name of the selected hero
+ */
+function updateHeroHistory(attribute, heroName) {
+    pickedHeroHistory[attribute].push(heroName);
+    
+    // Maintain history size limit
+    if (pickedHeroHistory[attribute].length > MAX_HISTORY) {
+        pickedHeroHistory[attribute].shift();
+    }
+}
 
+/**
+ * Capitalize the first letter of a string
+ * @param {string} str - String to capitalize
+ * @returns {string} Capitalized string
+ */
+function capitalizeFirst(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
 
+// =============================================================================
+// DOM MANIPULATION FUNCTIONS
+// =============================================================================
+
+/**
+ * Create a hero card element with all necessary components
+ * @param {string} attribute - The hero attribute type
+ * @returns {HTMLElement} Complete hero card element
+ */
 function createHeroCard(attribute) {
     const hero = getRandomHero(attribute);
-    const attributeIcons = {
-        strength: 'https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/icons/hero_strength.png',
-        agility: 'https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/icons/hero_agility.png',
-        intellect: 'https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/icons/hero_intelligence.png',
-        universal: 'https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/icons/hero_universal.png'
-    };
-
     const card = document.createElement('div');
+    
     card.className = `option ${attribute}`;
-    card.style.backgroundImage = `url('${hero.image}')`;
     card.setAttribute('data-attribute', attribute);
     
     card.innerHTML = `
+        <img src="${hero.image}" class="hero-image" alt="${hero.name}">
         <div class="shadow"></div>
+        <div class="attribute-info">
+            <img src="${ATTRIBUTE_ICONS[attribute]}" class="attribute-icon" 
+                 alt="${attribute}" title="${capitalizeFirst(attribute)}">
+            <div class="attribute-name">${capitalizeFirst(attribute)}</div>
+        </div>
         <div class="label">
-            <img src="${attributeIcons[attribute]}" class="attribute-icon" 
-                 alt="${attribute}" title="${attribute.charAt(0).toUpperCase() + attribute.slice(1)}">
             <div class="info">
                 <div class="main">${hero.name}</div>
-                <div class="sub">${attribute.charAt(0).toUpperCase() + attribute.slice(1)}</div>
             </div>
         </div>
     `;
@@ -209,97 +274,160 @@ function createHeroCard(attribute) {
     return card;
 }
 
-function randomizeTeam() {
+/**
+ * Add shuffle animation to existing cards
+ * @param {NodeList} cards - List of card elements to animate
+ */
+function addShuffleAnimationToCards(cards) {
+    cards.forEach(card => {
+        card.classList.add('cards-shuffle-animation');
+    });
+}
+
+/**
+ * Add shuffle animation to the randomize button
+ * @param {HTMLElement} button - The button element to animate
+ */
+function addShuffleAnimationToButton(button) {
+    if (button) {
+        button.classList.add('shuffle-animation');
+    }
+}
+
+/**
+ * Remove shuffle animation from the randomize button
+ * @param {HTMLElement} button - The button element
+ */
+function removeShuffleAnimationFromButton(button) {
+    if (button) {
+        button.classList.remove('shuffle-animation');
+    }
+}
+
+// =============================================================================
+// CORE FUNCTIONALITY
+// =============================================================================
+
+/**
+ * Main function to randomize all hero cards
+ * Includes animation effects and proper timing
+ */
+function randomizeHeroes() {
     const container = document.getElementById('heroContainer');
+    const button = document.querySelector('.randomize-btn');
+    
+    // Start animations
+    addShuffleAnimationToButton(button);
+    
+    const existingCards = container.querySelectorAll('.option');
+    addShuffleAnimationToCards(existingCards);
+    
+    // Generate new cards after animation delay
+    setTimeout(() => {
+        container.innerHTML = '';
+        isAnimationComplete = true;
+        
+        // Create cards for each attribute
+        const attributes = ['strength', 'agility', 'intellect', 'universal'];
+        attributes.forEach(attr => {
+            container.appendChild(createHeroCard(attr));
+        });
+        
+        // Clean up button animation
+        removeShuffleAnimationFromButton(button);
+    }, ANIMATION_DELAY);
+}
+
+/**
+ * Initialize the application with initial hero cards
+ */
+function initializeApp() {
+    const container = document.getElementById('heroContainer');
+    const button = document.querySelector('.randomize-btn');
+    
+    // Add shuffle animation for initial load
+    addShuffleAnimationToButton(button);
+    
     container.innerHTML = '';
     isAnimationComplete = true;
     
-    // Создаем карточки для каждого атрибута
+    // Create initial cards
     const attributes = ['strength', 'agility', 'intellect', 'universal'];
     attributes.forEach(attr => {
         container.appendChild(createHeroCard(attr));
     });
     
-    // Активируем первую карточку
+    // Clean up animation after delay
     setTimeout(() => {
-        const firstCard = container.querySelector('.option');
-        if (firstCard) {
-            firstCard.classList.add('active');
-        }
-    }, 100);
+        removeShuffleAnimationFromButton(button);
+    }, 600);
 }
 
-
-function rerollHero(card) {
-    if (!isAnimationComplete) return;
-    
-    isAnimationComplete = false;
+/**
+ * Reroll a single hero card
+ * @param {HTMLElement} card - The card element to reroll
+ */
+function rerollSingleHero(card) {
     const attribute = card.getAttribute('data-attribute');
     const newHero = getRandomHero(attribute);
     
-    // Анимация замены
-    card.style.opacity = '0.5';
+    // Update card content
+    const heroImg = card.querySelector('.hero-image');
+    const heroName = card.querySelector('.main');
+    
+    // Add animation
+    card.classList.add('reroll-animation');
+    
+    // Update content after animation delay
     setTimeout(() => {
-        card.style.backgroundImage = `url('${newHero.image}')`;
-        card.querySelector('.main').textContent = newHero.name;
-        card.style.opacity = '1';
-        
-        // Разрешаем следующую замену после завершения анимации
-        setTimeout(() => {
-            isAnimationComplete = true;
-        }, 300);
-    }, 200);
+        heroImg.src = newHero.image;
+        heroImg.alt = newHero.name;
+        heroName.textContent = newHero.name;
+        card.classList.remove('reroll-animation');
+    }, 150);
 }
 
-function randomizeTeam() {
-    const container = document.getElementById('heroContainer');
-    container.innerHTML = '';
-    isAnimationComplete = true;
-    
-    // Создаем карточки для каждого атрибута
-    const attributes = ['strength', 'agility', 'intellect', 'universal'];
-    attributes.forEach(attr => {
-        container.appendChild(createHeroCard(attr));
-    });
-    
-    // Активируем первую карточку
-    setTimeout(() => {
-        const firstCard = container.querySelector('.option');
-        if (firstCard) {
-            firstCard.classList.add('active');
-        }
-    }, 100);
+// =============================================================================
+// EVENT HANDLERS
+// =============================================================================
+
+/**
+ * Handle individual card click events
+ * @param {Event} event - The click event
+ */
+function handleCardClick(event) {
+    const card = event.currentTarget;
+    rerollSingleHero(card);
 }
 
+/**
+ * Handle mobile double-tap events
+ * @param {Event} event - The touch event
+ */
+function handleMobileDoubleTap(event) {
+    const currentTime = new Date().getTime();
+    const tapLength = currentTime - lastTap;
+    
+    if (tapLength < TAP_DELAY && tapLength > 0) {
+        event.preventDefault();
+        rerollSingleHero(event.currentTarget);
+    }
+    
+    lastTap = currentTime;
+}
+
+// =============================================================================
+// APPLICATION INITIALIZATION
+// =============================================================================
+
+/**
+ * Initialize the application when DOM is ready
+ */
 $(document).ready(function() {
-    randomizeTeam();
+    // Initialize the app
+    initializeApp();
     
-    let lastTap = 0;
-    const tapDelay = 300; // Задержка между касаниями в миллисекундах
-    
-    // Обработчик для мобильных устройств
-    $(document).on('touchstart', '.option', function(e) {
-        const currentTime = new Date().getTime();
-        const tapLength = currentTime - lastTap;
-        
-        if (tapLength < tapDelay && tapLength > 0) {
-            // Двойное касание - выполняем reroll
-            e.preventDefault();
-            rerollHero(this);
-        }
-        lastTap = currentTime;
-    });
-    
-    // Обработчик для десктопов (оставляем как было)
-    $(document).on('click', '.option', function(e) {
-        if (e.detail > 1) return; // Игнорируем двойной клик
-        
-        $('.option').removeClass('active');
-        $(this).addClass('active');
-    });
-    
-    // Обработчик двойного клика для десктопов
-    $(document).on('dblclick', '.option', function() {
-        rerollHero(this);
-    });
+    // Set up event listeners
+    $(document).on('click', '.option', handleCardClick);
+    $(document).on('touchstart', '.option', handleMobileDoubleTap);
 });
