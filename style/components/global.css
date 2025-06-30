@@ -1,0 +1,23 @@
+/**
+ * Dota 2 Hero Randomizer - Global Styles
+ * Yarowoi Challenge Edition
+ */
+
+/* =============================================================================
+   2. GLOBAL STYLES & RESET
+   ============================================================================= */
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    min-height: 100vh;
+    background: var(--primary-gradient);
+    background-image: url(/dotarandom/img/1648968841_45-abrakadabra-fun-p-zadnii-plan-dlya-prezentatsii-54.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    font-family: var(--font-family);
+    transition: var(--transition-normal);
+}

@@ -1,0 +1,110 @@
+/**
+ * Dota 2 Hero Randomizer - Animation Styles
+ * Yarowoi Challenge Edition
+ */
+
+/* =============================================================================
+   10. ANIMATIONS
+   ============================================================================= */
+
+/* Card Reroll Animation */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-5px); }
+    40% { transform: translateX(5px); }
+    60% { transform: translateX(-5px); }
+    80% { transform: translateX(5px); }
+}
+
+.reroll-animation {
+    animation: shake 0.3s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+/* Button Shuffle Animation */
+@keyframes shuffle {
+    0% { transform: scale(1) rotate(0deg); }
+    25% { transform: scale(0.95) rotate(-3deg); }
+    50% { transform: scale(0.9) rotate(3deg); }
+    75% { transform: scale(0.95) rotate(-2deg); }
+    100% { transform: scale(1) rotate(0deg); }
+}
+
+.shuffle-animation {
+    animation: shuffle var(--transition-slow) cubic-bezier(.36,.07,.19,.97) both;
+}
+
+/* Cards Shuffle Animation */
+@keyframes shuffleCards {
+    0% { transform: translateY(0) scale(1); opacity: 1; }
+    25% { transform: translateY(-10px) scale(0.98); opacity: 0.8; }
+    50% { transform: translateY(-5px) scale(0.95); opacity: 0.6; }
+    75% { transform: translateY(-2px) scale(0.98); opacity: 0.8; }
+    100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+.cards-shuffle-animation {
+    animation: shuffleCards 0.8s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+/* =============================================================================
+   SLOT MACHINE ANIMATIONS
+   ============================================================================= */
+
+/* Slot Machine Spinning Animation */
+@keyframes slotSpin {
+    0% { transform: scale(1) rotateY(0deg); }
+    25% { transform: scale(0.95) rotateY(90deg); }
+    50% { transform: scale(0.9) rotateY(180deg); }
+    75% { transform: scale(0.95) rotateY(270deg); }
+    100% { transform: scale(1) rotateY(360deg); }
+}
+
+.slot-spinning {
+    animation: slotSpin 0.2s linear infinite;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.3), inset 0 0 20px rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.4);
+}
+
+/* Slot Machine Landing Animation */
+@keyframes slotLanding {
+    0% { 
+        transform: scale(0.9) rotateY(0deg);
+        box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+    }
+    50% { 
+        transform: scale(1.05) rotateY(0deg);
+        box-shadow: 0 0 40px rgba(255, 215, 0, 0.7);
+    }
+    100% { 
+        transform: scale(1) rotateY(0deg);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+}
+
+.slot-landing {
+    animation: slotLanding 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    border: 2px solid rgba(255, 215, 0, 0.6);
+}
+
+/* Enhanced spinning effect with blur */
+.slot-spinning .hero-image {
+    filter: blur(1px) brightness(1.2);
+    transition: filter 0.1s ease;
+}
+
+.slot-spinning .main {
+    filter: blur(0.5px);
+    transition: filter 0.1s ease;
+}
+
+/* Landing effect - clear and bright */
+.slot-landing .hero-image {
+    filter: brightness(1.1) contrast(1.1);
+    transition: filter 0.3s ease;
+}
+
+.slot-landing .main {
+    filter: none;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+    transition: all 0.3s ease;
+}

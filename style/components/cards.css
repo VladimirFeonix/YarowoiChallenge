@@ -1,0 +1,181 @@
+/**
+ * Dota 2 Hero Randomizer - Card Styles
+ * Yarowoi Challenge Edition
+ */
+
+/* =============================================================================
+   4. HERO CARDS CONTAINER
+   ============================================================================= */
+
+.options {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+    min-width: 900px;
+    max-width: 1200px;
+    width: calc(100% - 80px);
+    margin: var(--spacing-xxl) 0;
+    padding: var(--spacing-xl);
+    background: var(--white-08);
+    border-radius: var(--radius-xxl);
+    backdrop-filter: blur(15px);
+    border: 2px solid var(--white-15);
+    box-shadow: var(--shadow-xl);
+}
+
+/* =============================================================================
+   5. INDIVIDUAL HERO CARDS
+   ============================================================================= */
+
+.option {
+    position: relative;
+    overflow: hidden;
+    height: 380px;
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+    user-select: none;
+    border: 3px solid var(--white-10);
+    background: var(--card-gradient);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+/* Hover tooltip for rerandomization */
+.option:hover::after {
+    content: 'Click to rerandom';
+    position: absolute;
+    top: var(--spacing-md);
+    right: var(--spacing-md);
+    color: var(--white);
+    font-size: var(--font-size-sm);
+    opacity: 1;
+    z-index: 4;
+    background: var(--black-80);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--radius-sm);
+    backdrop-filter: blur(5px);
+    border: 1px solid var(--white-15);
+    font-weight: 500;
+    text-shadow: none;
+    transition: opacity var(--transition-normal);
+}
+
+/* Card gradient overlay */
+.option::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        180deg,
+        transparent 0%,
+        transparent 50%,
+        rgba(0, 0, 0, 0.1) 70%,
+        var(--black-40) 100%
+    );
+    z-index: 1;
+    border-radius: var(--radius-xl);
+}
+
+/* =============================================================================
+   6. CARD COMPONENTS (IMAGE, ATTRIBUTE, LABEL)
+   ============================================================================= */
+
+/* Hero Image */
+.hero-image {
+    position: absolute;
+    top: var(--spacing-md);
+    left: var(--spacing-md);
+    width: calc(100% - 30px);
+    height: 205px;
+    object-fit: cover;
+    object-position: center;
+    z-index: 0;
+    border-radius: var(--radius-md);
+}
+
+/* Attribute Information Section */
+.attribute-info {
+    position: absolute;
+    top: 230px;
+    left: var(--spacing-lg);
+    right: var(--spacing-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    background: var(--attribute-gradient);
+    padding: var(--spacing-xs) var(--spacing-md);
+    border-radius: var(--radius-md);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--white-10);
+    box-shadow: var(--shadow-sm);
+}
+
+.attribute-icon {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 4px var(--black-80));
+}
+
+.attribute-name {
+    color: var(--white);
+    font-size: var(--font-size-md);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-left: var(--spacing-xs);
+    text-shadow: 0 1px 3px var(--black-80);
+}
+
+/* Hero Name Label */
+.label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    bottom: var(--spacing-md);
+    left: var(--spacing-md);
+    right: var(--spacing-md);
+    z-index: 3;
+    background: var(--label-gradient);
+    padding: 18px var(--spacing-lg);
+    border-radius: var(--radius-md);
+    backdrop-filter: blur(15px);
+    border: 2px solid var(--white-15);
+    box-shadow: var(--shadow-md);
+    height: 65px;
+    box-sizing: border-box;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    color: var(--white);
+    min-width: 0;
+    text-align: center;
+}
+
+.main {
+    font-weight: bold;
+    font-size: var(--font-size-lg);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+    margin-bottom: 4px;
+    color: var(--white);
+    letter-spacing: 0.5px;
+    line-height: 1.2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    overflow: hidden;
+    word-wrap: break-word;
+    hyphens: auto;
+}

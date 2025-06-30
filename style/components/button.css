@@ -1,0 +1,50 @@
+/**
+ * Dota 2 Hero Randomizer - Button Styles
+ * Yarowoi Challenge Edition
+ */
+
+/* =============================================================================
+   8. RANDOMIZE BUTTON
+   ============================================================================= */
+
+.randomize-btn {
+    background: var(--button-gradient);
+    border: none;
+    color: var(--white);
+    padding: var(--spacing-md) var(--spacing-xxl);
+    font-size: var(--font-size-xl);
+    border-radius: var(--radius-round);
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    font-weight: bold;
+    margin: var(--spacing-lg) 0;
+    z-index: 10;
+    transition: all var(--transition-normal);
+    position: relative;
+    overflow: hidden;
+    font-family: var(--font-family);
+}
+
+.randomize-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+    background: var(--button-hover-gradient);
+}
+
+.randomize-btn:active {
+    transform: translateY(0);
+}
+
+.randomize-btn:disabled {
+    cursor: not-allowed;
+    background: linear-gradient(135deg, #666, #888);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+    transform: none;
+    transition: all var(--transition-normal);
+}
+
+.randomize-btn:disabled:hover {
+    transform: none;
+    background: linear-gradient(135deg, #666, #888);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+}

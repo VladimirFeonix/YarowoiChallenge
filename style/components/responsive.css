@@ -1,0 +1,271 @@
+/**
+ * Dota 2 Hero Randomizer - Responsive Styles
+ * Yarowoi Challenge Edition
+ */
+
+/* =============================================================================
+   11. RESPONSIVE DESIGN
+   ============================================================================= */
+
+/* Tablet Styles */
+@media (max-width: 1024px) {
+    .options {
+        min-width: auto;
+        width: 95%;
+        gap: 20px;
+        padding: 25px;
+    }
+    
+    .option {
+        height: 320px;
+    }
+    
+    .hero-image {
+        height: 165px;
+    }
+    
+    .attribute-info {
+        top: 185px;
+        padding: 6px 12px;
+    }
+    
+    .attribute-icon {
+        width: 20px;
+        height: 20px;
+    }
+    
+    .attribute-name {
+        font-size: var(--font-size-sm);
+        margin-left: 6px;
+    }
+    
+    .label {
+        height: 58px;
+        padding: 15px 18px;
+    }
+    
+    .main {
+        font-size: 1.1rem;
+        line-height: 1.1;
+    }
+    
+    .subtitle {
+        font-size: 16px;
+        letter-spacing: 1.5px;
+    }
+}
+
+/* Mobile Landscape and Small Tablets */
+@media (max-width: 768px) {
+    body {
+        overflow: auto;
+        min-height: auto;
+        padding: 10px 10px 20px 10px;
+        background-attachment: fixed;
+    }
+
+    .top-sign {
+        top: 5px;
+        left: 5px;
+        font-size: 10px;
+        padding: 3px 6px;
+    }
+
+    .name {
+        font-size: 45px;
+    }
+
+    .options {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        padding: 20px;
+    }
+    
+    .option {
+        height: 280px;
+        border-radius: var(--radius-lg);
+    }
+    
+    .hero-image {
+        top: 12px;
+        left: 12px;
+        width: calc(100% - 24px);
+        height: 145px;
+        border-radius: var(--radius-md);
+    }
+    
+    .attribute-info {
+        top: 165px;
+        left: 15px;
+        right: 15px;
+        padding: 5px 10px;
+    }
+    
+    .attribute-icon {
+        width: 18px;
+        height: 18px;
+    }
+    
+    .attribute-name {
+        font-size: 0.75rem;
+        margin-left: 5px;
+    }
+    
+    .option::before {
+        border-radius: var(--radius-lg);
+    }
+    
+    .label {
+        bottom: 12px;
+        left: 12px;
+        right: 12px;
+        padding: 16px 15px;
+        border-radius: var(--radius-md);
+        height: 68px;
+        box-sizing: border-box;
+    }
+    
+    .main {
+        font-size: 1rem;
+        line-height: 1.1;
+    }
+    
+    .developer-credits {
+        margin-top: 20px;
+        padding: 15px;
+        font-size: var(--font-size-sm);
+    }
+    
+    .subtitle {
+        font-size: 14px;
+        letter-spacing: 1px;
+    }
+}
+
+/* Mobile Portrait */
+@media (max-width: 480px) {
+    .top-sign {
+        top: 3px;
+        left: 3px;
+        font-size: 9px;
+        padding: 2px 5px;
+    }
+
+    .name {
+        font-size: 32px;
+    }
+
+    .options {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        padding: 15px;
+    }
+    
+    .option {
+        height: 240px;
+    }
+    
+    .hero-image {
+        top: 8px;
+        left: 8px;
+        width: calc(100% - 16px);
+        height: 125px;
+    }
+    
+    .attribute-info {
+        top: 140px;
+        left: 12px;
+        right: 12px;
+        padding: 4px 8px;
+    }
+    
+    .attribute-icon {
+        width: 16px;
+        height: 16px;
+    }
+    
+    .attribute-name {
+        font-size: var(--font-size-xs);
+        margin-left: 4px;
+    }
+    
+    .label {
+        bottom: 10px;
+        left: 10px;
+        right: 10px;
+        padding: 14px 12px;
+        height: 58px;
+        box-sizing: border-box;
+    }
+    
+    .main {
+        font-size: 0.9rem;
+        line-height: 1.1;
+    }
+    
+    .developer-credits {
+        margin-top: 15px;
+        padding: 12px;
+        font-size: 0.75rem;
+    }
+    
+    .subtitle {
+        font-size: 12px;
+        letter-spacing: 0.5px;
+    }
+}
+
+/* Touch Device Optimizations */
+@media (hover: none) {
+    /* Disable hover effects for touch devices */
+    .option:hover::after {
+        display: none;
+    }
+}
+
+/* Extra Small Mobile Devices */
+@media (max-width: 360px) {
+    .top-sign {
+        top: 2px;
+        left: 2px;
+        font-size: 8px;
+        padding: 2px 4px;
+    }
+
+    .name {
+        font-size: 28px;
+    }
+    
+    .subtitle {
+        font-size: 11px;
+        letter-spacing: 0.3px;
+    }
+    
+    .options {
+        gap: 10px;
+        padding: 12px;
+        min-width: auto;
+        width: calc(100% - 20px);
+    }
+    
+    .option {
+        height: 220px;
+    }
+    
+    .hero-image {
+        height: 115px;
+    }
+    
+    .attribute-info {
+        top: 130px;
+    }
+    
+    .label {
+        height: 55px;
+        padding: 12px 10px;
+    }
+    
+    .main {
+        font-size: 0.8rem;
+    }
+}

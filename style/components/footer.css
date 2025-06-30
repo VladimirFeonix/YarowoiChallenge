@@ -1,0 +1,28 @@
+/**
+ * Dota 2 Hero Randomizer - Footer Styles
+ * Yarowoi Challenge Edition
+ */
+
+/* =============================================================================
+   9. FOOTER & CREDITS
+   ============================================================================= */
+
+.developer-credits {
+    margin-top: var(--spacing-xl);
+    padding: var(--spacing-lg);
+    text-align: center;
+    color: var(--white-70);
+    font-size: var(--font-size-md);
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+
+.developer-credits p {
+    margin: 0;
+    text-shadow: 0 1px 3px var(--black-80);
+}
+
+.developer-names {
+    color: var(--white-90);
+    font-weight: bold;
+}

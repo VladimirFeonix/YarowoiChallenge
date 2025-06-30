@@ -1,0 +1,84 @@
+/**
+ * Dota 2 Hero Randomizer - Special Effects
+ * Yarowoi Challenge Edition
+ */
+
+/* =============================================================================
+   MARCI SPECIAL EFFECTS
+   ============================================================================= */
+
+/* Pulsing "CHOOSE ME" effect for Marci */
+.marci-choose-me {
+    position: absolute;
+    top: 68%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(45deg, #ff0066, #ff6600, #ffcc00, #ff0066);
+    background-size: 300% 300%;
+    color: white;
+    font-family: "Marvin", Arial, sans-serif;
+    font-weight: bold;
+    font-size: 1.2rem;
+    padding: 10px 20px;
+    border-radius: 30px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    box-shadow: 0 0 30px rgba(255, 0, 102, 0.9);
+    animation: marciPulse 1.5s ease-in-out infinite, marciGradient 3s ease infinite;
+    z-index: 10;
+    border: 3px solid rgba(255, 255, 255, 0.9);
+    text-align: center;
+    white-space: nowrap;
+}
+
+@keyframes marciPulse {
+    0%, 100% {
+        transform: translate(-50%, -50%) scale(1);
+        box-shadow: 0 0 20px rgba(255, 0, 102, 0.6);
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.1);
+        box-shadow: 0 0 30px rgba(255, 0, 102, 0.9);
+    }
+}
+
+@keyframes marciGradient {
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+/* Hide normal attribute info when Marci is selected */
+.option.marci-selected .attribute-info {
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* Responsive adjustments for Marci effect */
+@media (max-width: 1024px) {
+    .marci-choose-me {
+        font-size: 1.1rem;
+        padding: 8px 16px;
+    }
+}
+
+@media (max-width: 768px) {
+    .marci-choose-me {
+        font-size: 1rem;
+        padding: 6px 12px;
+        border-radius: 25px;
+        border: 2px solid rgba(255, 255, 255, 0.9);
+    }
+}
+
+@media (max-width: 480px) {
+    .marci-choose-me {
+        font-size: 0.9rem;
+        padding: 5px 10px;
+        border-radius: 20px;
+        letter-spacing: 1px;
+    }
+}

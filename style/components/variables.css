@@ -1,0 +1,79 @@
+/**
+ * Dota 2 Hero Randomizer - Variables
+ * Yarowoi Challenge Edition
+ */
+
+/* =============================================================================
+   1. FONTS & VARIABLES
+   ============================================================================= */
+
+@font-face {
+    font-family: "Marvin";
+    src: url(/dotarandom/fonts/ofont.ru_Marvin.ttf);
+}
+
+:root {
+    /* Color Palette */
+    --primary-gradient: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+    --title-gradient: radial-gradient(circle, rgba(255, 0, 0, 1) 0%, rgba(136, 20, 156, 1) 49%, rgba(0, 204, 180, 0.77) 100%);
+    --button-gradient: linear-gradient(135deg, #667eea, #764ba2);
+    --button-hover-gradient: linear-gradient(135deg, #7b8ff0, #8b5fcf);
+    --card-gradient: linear-gradient(145deg, rgba(15, 15, 35, 0.8), rgba(25, 25, 55, 0.9));
+    --label-gradient: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(20, 20, 40, 0.95));
+    --attribute-gradient: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(20, 20, 40, 0.9));
+    
+    /* Colors */
+    --white: rgba(255, 255, 255, 1);
+    --white-90: rgba(255, 255, 255, 0.9);
+    --white-80: rgba(255, 255, 255, 0.8);
+    --white-70: rgba(255, 255, 255, 0.7);
+    --white-15: rgba(255, 255, 255, 0.15);
+    --white-10: rgba(255, 255, 255, 0.1);
+    --white-08: rgba(255, 255, 255, 0.08);
+    --black-80: rgba(0, 0, 0, 0.8);
+    --black-40: rgba(0, 0, 0, 0.4);
+    --black-30: rgba(0, 0, 0, 0.3);
+    
+    /* Attribute Colors */
+    --strength-color: rgba(255, 50, 50, 0.7);
+    --agility-color: rgba(50, 255, 50, 0.7);
+    --intellect-color: rgba(50, 50, 255, 0.7);
+    --universal-color: rgba(180, 50, 255, 0.7);
+    
+    /* Spacing */
+    --spacing-xs: 5px;
+    --spacing-sm: 10px;
+    --spacing-md: 15px;
+    --spacing-lg: 20px;
+    --spacing-xl: 30px;
+    --spacing-xxl: 40px;
+    
+    /* Border Radius */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 15px;
+    --radius-xl: 20px;
+    --radius-xxl: 30px;
+    --radius-round: 50px;
+    
+    /* Shadows */
+    --shadow-sm: 0 4px 15px var(--black-30);
+    --shadow-md: 0 8px 25px var(--black-30);
+    --shadow-lg: 0 10px 30px var(--black-40);
+    --shadow-xl: 0 20px 40px var(--black-30);
+    
+    /* Transitions */
+    --transition-fast: 0.15s ease;
+    --transition-normal: 0.3s ease;
+    --transition-slow: 0.6s ease;
+    
+    /* Typography */
+    --font-family: "Marvin", sans-serif;
+    --font-size-xs: 0.7rem;
+    --font-size-sm: 0.8rem;
+    --font-size-md: 0.9rem;
+    --font-size-lg: 1.2rem;
+    --font-size-xl: 1.3rem;
+    --font-size-title: 70px;
+    --font-size-subtitle: 18px;
+}

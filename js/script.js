@@ -194,7 +194,7 @@ let lastTap = 0;
 
 /**
  * Get a random hero from the specified attribute category
- * Avoids recently picked heroes
+ * Avoids recently picked heroes (except Marci, who can appear anytime)
  * @param {string} attribute - The hero attribute (strength, agility, intellect, universal)
  * @param {boolean} updateHistory - Whether to update the pick history (default: false)
  * @returns {Object} Random hero object with name and image
@@ -202,30 +202,40 @@ let lastTap = 0;
 function getRandomHero(attribute, updateHistory = false) {
     const heroList = HEROES[attribute];
     
-    // Filter out recently picked heroes
+    // Filter out recently picked heroes, but always allow Marci
     const recentPicks = pickedHeroHistory[attribute];
-    const availableHeroes = heroList.filter(hero => 
+    let availableHeroes = heroList.filter(hero => 
         !recentPicks.includes(hero.name)
     );
     
     // Use full list if all heroes were recently picked, but clear history
-    let sourceList;
-    if (availableHeroes.length > 0) {
-        sourceList = availableHeroes;
-    } else {
+    if (availableHeroes.length === 0) {
         // Reset history when all heroes have been picked
         pickedHeroHistory[attribute] = [];
-        sourceList = heroList;
+        availableHeroes = heroList;
     }
-    
-    const randomHero = sourceList[Math.floor(Math.random() * sourceList.length)];
+
+    const marciHero = heroList.find(h => h.name === 'Marci');
+    let finalHero;
+
+    if (marciHero && attribute === 'universal' && Math.random() < 0.05) {
+        finalHero = marciHero;
+    } else {
+
+        const otherHeroes = availableHeroes.filter(h => h.name !== 'Marci');
+        if (otherHeroes.length > 0) {
+            finalHero = otherHeroes[Math.floor(Math.random() * otherHeroes.length)];
+        } else {
+            finalHero = availableHeroes[Math.floor(Math.random() * availableHeroes.length)];
+        }
+    }
     
     // Only update history when explicitly requested (for final selections)
     if (updateHistory) {
-        updateHeroHistory(attribute, randomHero.name);
+        updateHeroHistory(attribute, finalHero.name);
     }
     
-    return randomHero;
+    return finalHero;
 }
 
 /**
@@ -234,11 +244,14 @@ function getRandomHero(attribute, updateHistory = false) {
  * @param {string} heroName - The name of the selected hero
  */
 function updateHeroHistory(attribute, heroName) {
-    pickedHeroHistory[attribute].push(heroName);
-    
-    // Maintain history size limit
-    if (pickedHeroHistory[attribute].length > MAX_HISTORY) {
-        pickedHeroHistory[attribute].shift();
+    // Exclude Marci from history tracking hihihiihhi
+    if (heroName !== 'Marci') {
+        pickedHeroHistory[attribute].push(heroName);
+        
+        // Maintain history size limit
+        if (pickedHeroHistory[attribute].length > MAX_HISTORY) {
+            pickedHeroHistory[attribute].shift();
+        }
     }
 }
 
@@ -281,6 +294,9 @@ function createHeroCard(attribute) {
             </div>
         </div>
     `;
+    
+    // Handle special effect for Marci
+    handleMarciSpecialEffect(card, hero.name);
     
     return card;
 }
@@ -384,6 +400,34 @@ function updateCardContent(card, hero, attribute) {
         heroImg.src = hero.image;
         heroImg.alt = hero.name;
         heroName.textContent = hero.name;
+        
+        // Special effect for Marci
+        handleMarciSpecialEffect(card, hero.name);
+    }
+}
+
+/**
+ * Handle special visual effect for Marci
+ * @param {HTMLElement} card - The card element
+ * @param {string} heroName - Name of the hero
+ */
+function handleMarciSpecialEffect(card, heroName) {
+    // Remove any existing Marci effects
+    card.classList.remove('marci-selected');
+    const existingChooseMe = card.querySelector('.marci-choose-me');
+    if (existingChooseMe) {
+        existingChooseMe.remove();
+    }
+    
+    // Add special effect if hero is Marci
+    if (heroName === 'Marci') {
+        card.classList.add('marci-selected');
+        
+        // Create and add the pulsing "CHOOSE ME" element
+        const chooseMeElement = document.createElement('div');
+        chooseMeElement.className = 'marci-choose-me';
+        chooseMeElement.textContent = 'CHOOSE ME';
+        card.appendChild(chooseMeElement);
     }
 }
 

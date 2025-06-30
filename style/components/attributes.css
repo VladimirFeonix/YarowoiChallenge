@@ -1,0 +1,63 @@
+/**
+ * Dota 2 Hero Randomizer - Attribute Styles
+ * Yarowoi Challenge Edition
+ */
+
+/* =============================================================================
+   6. CARD COMPONENTS (IMAGE, ATTRIBUTE, LABEL)
+   ============================================================================= */
+
+/* Attribute Information Section */
+.attribute-info {
+    position: absolute;
+    top: 230px;
+    left: var(--spacing-lg);
+    right: var(--spacing-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    background: var(--attribute-gradient);
+    padding: var(--spacing-xs) var(--spacing-md);
+    border-radius: var(--radius-md);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--white-10);
+    box-shadow: var(--shadow-sm);
+}
+
+.attribute-icon {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 4px var(--black-80));
+}
+
+.attribute-name {
+    color: var(--white);
+    font-size: var(--font-size-md);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-left: var(--spacing-xs);
+    text-shadow: 0 1px 3px var(--black-80);
+}
+
+/* =============================================================================
+   7. ATTRIBUTE COLOR VARIATIONS
+   ============================================================================= */
+
+.option.strength .attribute-icon {
+    filter: drop-shadow(0 0 2px var(--strength-color));
+}
+
+.option.agility .attribute-icon {
+    filter: drop-shadow(0 0 2px var(--agility-color));
+}
+
+.option.intellect .attribute-icon {
+    filter: drop-shadow(0 0 2px var(--intellect-color));
+}
+
+.option.universal .attribute-icon {
+    filter: drop-shadow(0 0 2px var(--universal-color));
+}
