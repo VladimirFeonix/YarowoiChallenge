@@ -151,63 +151,76 @@ const pickedHeroHistory = {
     intellect: [],
     universal: []
 };
-const MAX_HISTORY = 10; // Сколько последних героев запоминать для каждого атрибута
+const MAX_HISTORY = 10;
+
+// Флаг для отслеживания завершения анимации
+let isAnimationComplete = true;
 
 function getRandomHero(attribute) {
     const heroList = heroes[attribute];
     
-    // Фильтруем героев, исключая тех, что были недавно выбраны
+    // Фильтруем героев, исключая недавно выбранных
     const recentPicks = pickedHeroHistory[attribute];
     const availableHeroes = heroList.filter(hero => 
         !recentPicks.includes(hero.name)
     );
     
-    // Если все герои были недавно выбраны, используем полный список
+    // Если все герои были недавно, используем полный список
     const sourceList = availableHeroes.length > 0 ? availableHeroes : heroList;
-    
-    // Выбираем случайного героя
     const randomHero = sourceList[Math.floor(Math.random() * sourceList.length)];
     
-    // Добавляем выбранного героя в историю
+    // Обновляем историю
     pickedHeroHistory[attribute].push(randomHero.name);
     if (pickedHeroHistory[attribute].length > MAX_HISTORY) {
-        pickedHeroHistory[attribute].shift(); // Удаляем самый старый выбор
+        pickedHeroHistory[attribute].shift();
     }
     
     return randomHero;
 }
 
-// Остальной код остается без изменений
+
+
 function createHeroCard(attribute) {
     const hero = getRandomHero(attribute);
-    return `
-        <div class="option ${attribute}" style="background-image: url('${hero.image}')" 
-             data-attribute="${attribute}">
-            <div class="shadow"></div>
-            <div class="label">
-                <div class="icon">
-                    <i class="fas ${attributeIcons[attribute]}"></i>
-                </div>
-                <div class="info">
-                    <div class="main">${hero.name}</div>
-                    <div class="sub">${attribute.charAt(0).toUpperCase() + attribute.slice(1)}</div>
-                </div>
+    const attributeIcons = {
+        strength: 'https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/icons/hero_strength.png',
+        agility: 'https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/icons/hero_agility.png',
+        intellect: 'https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/icons/hero_intelligence.png',
+        universal: 'https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/icons/hero_universal.png'
+    };
+
+    const card = document.createElement('div');
+    card.className = `option ${attribute}`;
+    card.style.backgroundImage = `url('${hero.image}')`;
+    card.setAttribute('data-attribute', attribute);
+    
+    card.innerHTML = `
+        <div class="shadow"></div>
+        <div class="label">
+            <img src="${attributeIcons[attribute]}" class="attribute-icon" 
+                 alt="${attribute}" title="${attribute.charAt(0).toUpperCase() + attribute.slice(1)}">
+            <div class="info">
+                <div class="main">${hero.name}</div>
+                <div class="sub">${attribute.charAt(0).toUpperCase() + attribute.slice(1)}</div>
             </div>
         </div>
     `;
+    
+    return card;
 }
 
 function randomizeTeam() {
     const container = document.getElementById('heroContainer');
     container.innerHTML = '';
+    isAnimationComplete = true;
     
-    // Create one hero card for each attribute
+    // Создаем карточки для каждого атрибута
     const attributes = ['strength', 'agility', 'intellect', 'universal'];
     attributes.forEach(attr => {
-        container.innerHTML += createHeroCard(attr);
+        container.appendChild(createHeroCard(attr));
     });
     
-    // Activate the first card
+    // Активируем первую карточку
     setTimeout(() => {
         const firstCard = container.querySelector('.option');
         if (firstCard) {
@@ -216,13 +229,77 @@ function randomizeTeam() {
     }, 100);
 }
 
-// Initialize on load
+
+function rerollHero(card) {
+    if (!isAnimationComplete) return;
+    
+    isAnimationComplete = false;
+    const attribute = card.getAttribute('data-attribute');
+    const newHero = getRandomHero(attribute);
+    
+    // Анимация замены
+    card.style.opacity = '0.5';
+    setTimeout(() => {
+        card.style.backgroundImage = `url('${newHero.image}')`;
+        card.querySelector('.main').textContent = newHero.name;
+        card.style.opacity = '1';
+        
+        // Разрешаем следующую замену после завершения анимации
+        setTimeout(() => {
+            isAnimationComplete = true;
+        }, 300);
+    }, 200);
+}
+
+function randomizeTeam() {
+    const container = document.getElementById('heroContainer');
+    container.innerHTML = '';
+    isAnimationComplete = true;
+    
+    // Создаем карточки для каждого атрибута
+    const attributes = ['strength', 'agility', 'intellect', 'universal'];
+    attributes.forEach(attr => {
+        container.appendChild(createHeroCard(attr));
+    });
+    
+    // Активируем первую карточку
+    setTimeout(() => {
+        const firstCard = container.querySelector('.option');
+        if (firstCard) {
+            firstCard.classList.add('active');
+        }
+    }, 100);
+}
+
 $(document).ready(function() {
     randomizeTeam();
     
-    // Click handler for cards - only for activation, not reroll
-    $(document).on('click', '.option', function() {
+    let lastTap = 0;
+    const tapDelay = 300; // Задержка между касаниями в миллисекундах
+    
+    // Обработчик для мобильных устройств
+    $(document).on('touchstart', '.option', function(e) {
+        const currentTime = new Date().getTime();
+        const tapLength = currentTime - lastTap;
+        
+        if (tapLength < tapDelay && tapLength > 0) {
+            // Двойное касание - выполняем reroll
+            e.preventDefault();
+            rerollHero(this);
+        }
+        lastTap = currentTime;
+    });
+    
+    // Обработчик для десктопов (оставляем как было)
+    $(document).on('click', '.option', function(e) {
+        if (e.detail > 1) return; // Игнорируем двойной клик
+        
         $('.option').removeClass('active');
         $(this).addClass('active');
+    });
+    
+    // Обработчик двойного клика для десктопов
+    $(document).on('dblclick', '.option', function() {
+        rerollHero(this);
     });
 });
