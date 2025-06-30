@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dota 2 Hero Randomizer</title>
+    <link rel="stylesheet" href="/dotarandom/style/main.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Шапка сайта -->
+    <header class="site-header">
+        <div class="header-container">
+            <div class="logo">
+                
+                <h1 class="name">DotaRandomizer</h1>
+            </div>
+            <nav class="main-nav">
+                <a href="#" class="nav-link active">Главная</a>
+                <a href="#" class="nav-link">Герои</a>
+                <a href="#" class="nav-link">Форум</a>
+            </nav>
+        </div>
+    </header>
+   
+    <div class="options" id="heroContainer">
+        <!-- Герои будут добавляться динамически -->
+    </div>
+
+    <button class="randomize-btn" onclick="randomizeTeam()">RANDOMIZE TEAM</button>
+
+    <!-- Подвал сайта -->
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Социальные сети</h3>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-vk"></i></a>
+                    <a href="#"><i class="fab fa-telegram"></i></a>
+                    <a href="#"><i class="fab fa-discord"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2023 DotaRandomizer. Все права защищены.
+            <h3>Made by Cheshire</h3>
+        </div>
+    </footer>
+
+    <script src="/dotarandom/js/script.js"></script>
+</body>
+</html>
