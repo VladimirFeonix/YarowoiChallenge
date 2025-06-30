@@ -144,13 +144,40 @@ const attributeIcons = {
     universal: "fa-star"
 };
 
-// Function to get a random hero from specific attribute
+// Храним историю последних выбранных героев
+const pickedHeroHistory = {
+    strength: [],
+    agility: [],
+    intellect: [],
+    universal: []
+};
+const MAX_HISTORY = 10; // Сколько последних героев запоминать для каждого атрибута
+
 function getRandomHero(attribute) {
     const heroList = heroes[attribute];
-    return heroList[Math.floor(Math.random() * heroList.length)];
+    
+    // Фильтруем героев, исключая тех, что были недавно выбраны
+    const recentPicks = pickedHeroHistory[attribute];
+    const availableHeroes = heroList.filter(hero => 
+        !recentPicks.includes(hero.name)
+    );
+    
+    // Если все герои были недавно выбраны, используем полный список
+    const sourceList = availableHeroes.length > 0 ? availableHeroes : heroList;
+    
+    // Выбираем случайного героя
+    const randomHero = sourceList[Math.floor(Math.random() * sourceList.length)];
+    
+    // Добавляем выбранного героя в историю
+    pickedHeroHistory[attribute].push(randomHero.name);
+    if (pickedHeroHistory[attribute].length > MAX_HISTORY) {
+        pickedHeroHistory[attribute].shift(); // Удаляем самый старый выбор
+    }
+    
+    return randomHero;
 }
 
-// Function to create a hero card for specific attribute
+// Остальной код остается без изменений
 function createHeroCard(attribute) {
     const hero = getRandomHero(attribute);
     return `
