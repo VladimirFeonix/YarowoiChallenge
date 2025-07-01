@@ -1,6 +1,6 @@
 # Dota 2 Hero Randomizer for the Yarowoi Challenge
 
-(img/screenshot.png)
+![Screenshot of the interface](img/screenshot.png)
 Built with love ❤️ for [YAROWOI](https://www.twitch.tv/yarowoiqa).
 
 ## The Challenge
