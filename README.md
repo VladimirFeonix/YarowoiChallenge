@@ -9,4 +9,4 @@ The idea is to get four random heroes one from each attribute and then choose on
 
 Dare to try?!!
 
-[**➡️ Click here to use it!**](https://vladimirfeonix.github.io/dotarandom/)
+[**➡️ Click here to use it!**](https://vladimirfeonix.github.io/YarowoiChallenge/)
