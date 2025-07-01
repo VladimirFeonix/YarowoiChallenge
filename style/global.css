@@ -15,7 +15,7 @@ body {
     overflow: hidden;
     min-height: 100vh;
     background: var(--primary-gradient);
-    background-image: url(/dotarandom/img/1648968841_45-abrakadabra-fun-p-zadnii-plan-dlya-prezentatsii-54.jpg);
+    background-image: url(/dotarandom/img/background.jpg);
     background-size: cover;
     background-repeat: no-repeat;
     font-family: var(--font-family);
