@@ -23,6 +23,10 @@
     position: relative;
     overflow: hidden;
     font-family: var(--font-family);
+    -ms-user-select: none; 
+	-moz-user-select: none; 
+	-webkit-user-select: none; 
+	user-select: none;
 }
 
 .randomize-btn:hover {
