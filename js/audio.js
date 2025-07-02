@@ -18,8 +18,8 @@ class AudioManager {
     this.audioContext.suspend();
 
     // Предзагрузка аудио файлов
-    await this.loadAudio('/sounds/spin.mp3', 'spin');
-    await this.loadAudio('/sounds/stop.mp3', 'stop');
+    await this.loadAudio('/YarowoiChallenge/sounds/spin.mp3', 'spin');
+    await this.loadAudio('/YarowoiChallenge/sounds/stop.mp3', 'stop');
 
     // Разрешаем звуки после первого клика
     document.addEventListener('click', () => {
