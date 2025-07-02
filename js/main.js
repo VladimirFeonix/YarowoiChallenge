@@ -1,22 +1,21 @@
+// Добавьте перед другими импортами
+import 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js';
 import { initializeApp, randomizeHeroes } from './core.js';
 import { handleCardClick, handleMobileDoubleTap } from './events.js';
 import { audioManager } from './audio.js';
 
-// Инициализация аудио системы
-audioManager;
-
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', () => {
     initializeApp();
     
-    document.addEventListener('click', function(event) {
-        if (event.target.closest('.option')) {
-            handleCardClick(event);
+    document.addEventListener('click', (e) => {
+        if (e.target.closest('.option')) {
+            handleCardClick(e);
         }
     });
     
-    document.addEventListener('touchstart', function(event) {
-        if (event.target.closest('.option')) {
-            handleMobileDoubleTap(event);
+    document.addEventListener('touchstart', (e) => {
+        if (e.target.closest('.option')) {
+            handleMobileDoubleTap(e);
         }
     });
 });
