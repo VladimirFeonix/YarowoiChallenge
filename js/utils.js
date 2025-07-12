@@ -36,18 +36,12 @@ export function getRandomHero(attribute, updateHistory = false) {
         availableHeroes = heroList;
     }
 
-    const marciHero = heroList.find(h => h.name === 'Marci');
     let finalHero;
-
-    if (marciHero && attribute === 'universal' && Math.random() < 0.1) {
-        finalHero = marciHero;
+    const otherHeroes = availableHeroes.filter(h => h.name !== 'Marci');
+    if (otherHeroes.length > 0) {
+        finalHero = otherHeroes[Math.floor(Math.random() * otherHeroes.length)];
     } else {
-        const otherHeroes = availableHeroes.filter(h => h.name !== 'Marci');
-        if (otherHeroes.length > 0) {
-            finalHero = otherHeroes[Math.floor(Math.random() * otherHeroes.length)];
-        } else {
-            finalHero = availableHeroes[Math.floor(Math.random() * availableHeroes.length)];
-        }
+        finalHero = availableHeroes[Math.floor(Math.random() * availableHeroes.length)];
     }
     
     // Only update history when explicitly requested (for final selections)
