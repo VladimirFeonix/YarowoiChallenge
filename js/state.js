@@ -32,16 +32,12 @@ export let lastTap = 0;
  * @param {string} heroName - The name of the selected hero
  */
 export function updateHeroHistory(attribute, heroName) {
-    // Exclude Marci from history tracking hihihiihhi
-    if (heroName !== 'Marci') {
-        pickedHeroHistory[attribute].push(heroName);
         
         // Maintain history size limit
         if (pickedHeroHistory[attribute].length > MAX_HISTORY) {
             pickedHeroHistory[attribute].shift();
         }
     }
-}
 
 /**
  * Set the animation completion status
