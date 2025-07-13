@@ -15,7 +15,7 @@ import { pickedHeroHistory, updateHeroHistory } from './state.js';
 
 /**
  * Get a random hero from the specified attribute category
- * Avoids recently picked heroes (except Marci, who can appear anytime)
+ * Avoids recently picked heroes
  * @param {string} attribute - The hero attribute (strength, agility, intellect, universal)
  * @param {boolean} updateHistory - Whether to update the pick history (default: false)
  * @returns {Object} Random hero object with name and image
@@ -23,7 +23,7 @@ import { pickedHeroHistory, updateHeroHistory } from './state.js';
 export function getRandomHero(attribute, updateHistory = false) {
     const heroList = HEROES[attribute];
     
-    // Filter out recently picked heroes, but always allow Marci
+    // Filter out recently picked heroes
     const recentPicks = pickedHeroHistory[attribute];
     let availableHeroes = heroList.filter(hero => 
         !recentPicks.includes(hero.name)

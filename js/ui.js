@@ -102,17 +102,17 @@ export function updateCardContent(card, hero, attribute) {
  * @param {string} heroName - Name of the hero
  */
 export function handleMarciSpecialEffect(card, heroName) {
-    // Remove any existing Marci effects
+    // Remove any existing special effects
     card.classList.remove('marci-selected');
     const existingChooseMe = card.querySelector('.marci-choose-me');
     if (existingChooseMe) {
         existingChooseMe.remove();
     }
-    
-    // Add special effect if hero is Marci
-    if (heroName === 'Marci') {
+
+    // Add special effect if hero is Marci, Batrider, Riki, or Leshrac
+    const specialHeroes = ['Marci', 'Batrider', 'Riki', 'Leshrac'];
+    if (specialHeroes.includes(heroName)) {
         card.classList.add('marci-selected');
-        
         // Create and add the pulsing "CHOOSE ME" element
         const chooseMeElement = document.createElement('div');
         chooseMeElement.className = 'marci-choose-me';
