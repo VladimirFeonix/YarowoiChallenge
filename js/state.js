@@ -33,10 +33,12 @@ export let lastTap = 0;
  */
 export function updateHeroHistory(attribute, heroName) {
         
-        // Maintain history size limit
-        if (pickedHeroHistory[attribute].length > MAX_HISTORY) {
-            pickedHeroHistory[attribute].shift();
-        }
+    // Add hero to history
+    pickedHeroHistory[attribute].push(heroName);
+    // Maintain history size limit
+    if (pickedHeroHistory[attribute].length > MAX_HISTORY) {
+        pickedHeroHistory[attribute].shift();
+    }
     }
 
 /**
