@@ -39,7 +39,7 @@ export const heroChallenges = {
     'Earthshaker': ['Поймать 5 героев в Fissure', 'Нанести урон 3+ героям ультимейтом', 'Убить курьера Fissure'],
     'Mirana': ['Попасть 10 раз Sacred Arrow', 'Оглушить героя на 5 секунд стрелой', 'Убить 2 героев одной Starstorm'],
     'Windranger': ['Не промахнуться ни разу Shackleshot', 'Убить героя одним Powershot', 'Продержать Focus Fire на герое 10 секунд подряд'],
-    'Sniper': ['Нанести 10000 урона из-за границы видимости', 'Получить 15 киллов с Assassinate', 'Ни разу не быть убитым в ближнем бою'],
+    'Snier': ['Нанести 10000 урона из-за границы видимости', 'Получить 15 киллов с Assassinate', 'Ни разу не быть убитым в ближнем бою'],
     'Axe': ['Вызвать у 10 героев Culling Blade', 'Поймать в Call 3+ героев', 'Снять 80% хп ультой с одного врага'],
     'Juggernaut': ['Убить Рошана с Omnislash', 'Избежать 5 спеллов с Blade Fury', 'Нанести 5000 урона одним Blade Fury'],
     'Crystal Maiden': ['Зафризить 15 героев', 'Задать 10 рун', 'Убить курьера Frostbite'],
@@ -134,9 +134,15 @@ export function getRandomChallenge(heroName, challengeHistory) {
 // Система управления челленджами
 export class ChallengeSystem {
     constructor() {
+        if (window.challengeSystemInstance) {
+            return window.challengeSystemInstance;
+        }
+        
         this.enabled = true;
         this.challengeHistory = new ChallengeHistory();
         this.init();
+        
+        window.challengeSystemInstance = this;
     }
 
     init() {
@@ -163,70 +169,101 @@ export class ChallengeSystem {
         }, 100);
     }
 
-setupCardReroll() {
-    // Добавляем обработчик для реролла челленджей по клику на плашку челленджа
-    document.addEventListener('click', (e) => {
-        const challengeDisplay = e.target.closest('.challenge-display');
-        if (challengeDisplay) {
-            const card = challengeDisplay.closest('.option');
-            if (card) {
-                this.rerollCardChallenge(card);
-                e.stopPropagation();
+    setupCardReroll() {
+        // Делегирование событий для реролла челленджей
+        document.addEventListener('click', (e) => {
+            const challengeDisplay = e.target.closest('.challenge-display');
+            if (challengeDisplay) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                
+                const card = challengeDisplay.closest('.option');
+                if (card) {
+                    this.rerollCardChallenge(card);
+                }
             }
-        }
-    });
+        });
 
-    // Добавляем обработчик для мобильных устройств
-    document.addEventListener('touchstart', (e) => {
-        const challengeDisplay = e.target.closest('.challenge-display');
-        if (challengeDisplay) {
-            const card = challengeDisplay.closest('.option');
-            if (card) {
-                this.rerollCardChallenge(card);
-                e.stopPropagation();
+        // Для мобильных устройств
+        document.addEventListener('touchstart', (e) => {
+            const challengeDisplay = e.target.closest('.challenge-display');
+            if (challengeDisplay) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                
+                const card = challengeDisplay.closest('.option');
+                if (card) {
+                    this.rerollCardChallenge(card);
+                }
             }
-        }
-    });
-}
+        }, { passive: false });
+    }
 
     getChallenge(heroName) {
         if (!this.enabled) return null;
         return getRandomChallenge(heroName, this.challengeHistory);
     }
 
-    // Реролл челленджа для конкретной карточки
-    rerollCardChallenge(card) {
-        const heroName = card.querySelector('.main')?.textContent;
-        if (!heroName) return;
+// Реролл челленджа для конкретной карточки
+rerollCardChallenge(card) {
+    // Проверяем, не идет ли уже анимация смены героя
+    if (card.classList.contains('slot-spinning') || card.classList.contains('slot-landing')) {
+        return;
+    }
+    
+    const heroName = card.querySelector('.main')?.textContent?.trim();
+    if (!heroName) return;
 
-        // Удаляем текущий челлендж из истории, чтобы можно было получить новый
-        const currentChallenge = card.querySelector('.challenge-display')?.textContent?.replace('🎯 ', '');
-        if (currentChallenge) {
-            this.removeChallengeFromHistory(heroName, currentChallenge);
-        }
+    const challengeDisplay = card.querySelector('.challenge-display');
+    if (!challengeDisplay) return;
 
-        // Обновляем челлендж для карточки
-        this.updateCardChallenge(card);
-
-        // Анимация реролла
-        this.animateCardReroll(card);
-
-        // Проигрываем звук
-        if (window.audioManager) {
-            window.audioManager.playClick();
-        }
+    // Удаляем текущий челлендж из истории ДО получения нового
+    const currentChallenge = challengeDisplay.querySelector('span')?.textContent?.replace('🎯 ', '').trim();
+    if (currentChallenge) {
+        this.removeChallengeFromHistory(heroName, currentChallenge);
     }
 
-    // Удалить конкретный челлендж из истории героя
-    removeChallengeFromHistory(heroName, challenge) {
-        if (this.challengeHistory.history.has(heroName)) {
-            const heroHistory = this.challengeHistory.history.get(heroName);
-            const index = heroHistory.indexOf(challenge);
-            if (index > -1) {
-                heroHistory.splice(index, 1);
-            }
+    // Получаем новый челлендж
+    const newChallenge = this.getChallenge(heroName);
+    if (!newChallenge) return;
+    
+    // Анимация реролла
+    challengeDisplay.classList.add('challenge-rerolling');
+    challengeDisplay.style.opacity = '0';
+    
+    setTimeout(() => {
+        // Создаем или находим span для текста
+        let challengeText = challengeDisplay.querySelector('span');
+        if (!challengeText) {
+            challengeText = document.createElement('span');
+            challengeDisplay.innerHTML = '';
+            challengeDisplay.appendChild(challengeText);
+        }
+        challengeText.textContent = `🎯 ${newChallenge}`;
+        
+        challengeDisplay.style.opacity = '1';
+        
+        setTimeout(() => {
+            challengeDisplay.classList.remove('challenge-rerolling');
+        }, 400);
+    }, 200);
+
+    // Проигрываем звук
+    if (window.audioManager) {
+        window.audioManager.playClick();
+    }
+}
+
+// Удалить конкретный челлендж из истории героя
+removeChallengeFromHistory(heroName, challenge) {
+    if (this.challengeHistory.history.has(heroName)) {
+        const heroHistory = this.challengeHistory.history.get(heroName);
+        const index = heroHistory.indexOf(challenge);
+        if (index > -1) {
+            heroHistory.splice(index, 1);
         }
     }
+}ы
 
     updateAllChallenges() {
         const cards = document.querySelectorAll('.option');
@@ -247,23 +284,33 @@ setupCardReroll() {
         });
     }
 
-    updateCardChallenge(card) {
-        const challengeDisplay = card.querySelector('.challenge-display') || this.createChallengeDisplay(card);
-        const heroName = card.querySelector('.main')?.textContent;
+// Обновляем метод updateCardChallenge для работы с span
+updateCardChallenge(card) {
+    const challengeDisplay = card.querySelector('.challenge-display') || this.createChallengeDisplay(card);
+    const heroName = card.querySelector('.main')?.textContent;
+    
+    if (this.enabled && heroName) {
+        const challenge = this.getChallenge(heroName);
         
-        if (this.enabled && heroName) {
-            const challenge = this.getChallenge(heroName);
-            challengeDisplay.textContent = `🎯 ${challenge}`;
-            challengeDisplay.style.display = 'flex';
-            card.classList.add('has-challenge');
-            
-            // Добавляем подсказку при наведении
-            challengeDisplay.title = 'Кликните для смены челленджа';
-        } else {
-            challengeDisplay.style.display = 'none';
-            card.classList.remove('has-challenge');
+        // Создаем или находим span для текста
+        let challengeText = challengeDisplay.querySelector('span');
+        if (!challengeText) {
+            challengeText = document.createElement('span');
+            challengeDisplay.innerHTML = '';
+            challengeDisplay.appendChild(challengeText);
         }
+        challengeText.textContent = `🎯 ${challenge}`;
+        
+        challengeDisplay.style.display = 'flex';
+        card.classList.add('has-challenge');
+        
+        // Добавляем подсказку при наведении
+        challengeDisplay.title = 'Кликните для смены челленджа';
+    } else {
+        challengeDisplay.style.display = 'none';
+        card.classList.remove('has-challenge');
     }
+}
 
     createChallengeDisplay(card) {
         const display = document.createElement('div');
@@ -283,31 +330,32 @@ setupCardReroll() {
         }, 600);
     }
 
-    // Анимация реролла для карточки
-    animateCardReroll(card) {
-        const challengeDisplay = card.querySelector('.challenge-display');
-        if (!challengeDisplay) return;
-
-        // Анимация исчезновения и появления
-        challengeDisplay.style.opacity = '0';
-        challengeDisplay.style.transform = 'scale(0.8)';
-        
-        setTimeout(() => {
-            challengeDisplay.style.opacity = '1';
-            challengeDisplay.style.transform = 'scale(1)';
-            challengeDisplay.style.transition = 'all 0.3s ease';
-        }, 150);
-    }
-
     // Метод для очистки истории (может пригодиться)
     clearHistory() {
         this.challengeHistory.clearAllHistory();
     }
 }
 
-// Глобальная инициализация
-export const challengeSystem = new ChallengeSystem();
+// Глобальная инициализация с проверкой
+let challengeSystem;
+if (!window.challengeSystem) {
+    challengeSystem = new ChallengeSystem();
+    window.challengeSystem = challengeSystem;
+} else {
+    challengeSystem = window.challengeSystem;
+}
 
 // Делаем систему доступной глобально
-window.updateChallenges = () => challengeSystem.updateAllChallenges();
-window.rerollCardChallenge = (card) => challengeSystem.rerollCardChallenge(card);
+window.updateChallenges = () => {
+    if (window.challengeSystem) {
+        window.challengeSystem.updateAllChallenges();
+    }
+};
+
+window.rerollCardChallenge = (card) => {
+    if (window.challengeSystem) {
+        window.challengeSystem.rerollCardChallenge(card);
+    }
+};
+
+export { challengeSystem };

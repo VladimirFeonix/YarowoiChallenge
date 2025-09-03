@@ -5,13 +5,20 @@ import { handleCardClick, handleMobileDoubleTap } from './events.js';
 import { audioManager } from './audio.js';
 import { challengeSystem } from './challenges.js';
 
-document.addEventListener('DOMContentLoaded', () => {
+// Ждем полной загрузки DOM и всех ресурсов
+window.addEventListener('load', () => {
     initializeApp();
 
+    // Даем время для полной инициализации перед показом челленджей
     setTimeout(() => {
-        challengeSystem.updateCardsChallenges();
-    }, 1000);
-    
+        if (window.challengeSystem) {
+            window.challengeSystem.updateCardsChallenges();
+        }
+    }, 1500);
+});
+
+// Обработчики событий - только после полной загрузки
+document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('click', (e) => {
         // Пропускаем клики по плашке челленджа
         if (e.target.closest('.challenge-display')) {
@@ -21,7 +28,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.target.closest('.option')) {
             handleCardClick(e);
             const card = e.target.closest('.option');
-            challengeSystem.updateCardChallenge(card);
+            if (window.challengeSystem) {
+                window.challengeSystem.updateCardChallenge(card);
+            }
         }
     });
     
@@ -34,10 +43,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.target.closest('.option')) {
             handleMobileDoubleTap(e);
             const card = e.target.closest('.option');
-            challengeSystem.updateCardChallenge(card);
+            if (window.challengeSystem) {
+                window.challengeSystem.updateCardChallenge(card);
+            }
         }
     });
 });
 
+// Глобальные функции
 window.randomizeHeroes = randomizeHeroes;
 window.challengeSystem = challengeSystem;

@@ -59,7 +59,7 @@
     100% { transform: rotate(360deg); }
 }
 
-/* Challenge display in cards */
+/* Challenge display in cards - ФИКСИРОВАННЫЙ РАЗМЕР */
 .challenge-display {
     position: absolute;
     top: 270px;
@@ -76,13 +76,42 @@
     border: 2px solid rgba(255, 255, 255, 0.3);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
     z-index: 5;
-    display: none;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
     line-height: 1.3;
-    min-height: 40px;
+    height: 40px; /* ФИКСИРОВАННАЯ ВЫСОТА */
+    min-height: 40px; /* ФИКСИРОВАННАЯ МИНИМАЛЬНАЯ ВЫСОТА */
+    display: none;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    box-sizing: border-box;
+    margin: 0;
+    pointer-events: auto;
+}
+
+/* Контейнер для текста с фиксированной высотой */
+.challenge-text-container {
     display: flex;
     align-items: center;
     justify-content: center;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+/* Стиль для текста челленджа */
+.challenge-display span {
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Ограничение в 2 строки */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-height: 36px; /* Максимальная высота текста */
+    line-height: 1.2;
+    text-align: center;
+    width: 100%;
 }
 
 .option.has-challenge .challenge-display {
@@ -116,96 +145,6 @@
     animation: challengeAppear 0.3s ease-out, challengePulse 3s infinite;
 }
 
-/* Mobile responsive */
-@media (max-width: 1024px) {
-    .challenge-display {
-        top: 250px;
-        left: 10px;
-        right: 10px;
-        font-size: 11px;
-        padding: 8px 10px;
-        min-height: 36px;
-    }
-    
-    .challenge-update-btn {
-        padding: 12px 20px;
-        font-size: var(--font-size-md);
-    }
-}
-
-@media (max-width: 768px) {
-    .challenge-button-container {
-        margin: 10px 0 20px 0;
-        padding: 0 15px;
-    }
-    
-    .challenge-update-btn {
-        padding: 10px 18px;
-        font-size: var(--font-size-sm);
-        gap: 8px;
-    }
-    
-    .challenge-display {
-        top: 220px;
-        left: 8px;
-        right: 8px;
-        font-size: 10px;
-        padding: 6px 8px;
-        min-height: 32px;
-        border-width: 1px;
-    }
-}
-
-@media (max-width: 480px) {
-    .challenge-update-btn {
-        padding: 8px 16px;
-        font-size: 11px;
-        gap: 6px;
-    }
-    
-    .challenge-display {
-        top: 200px;
-        left: 6px;
-        right: 6px;
-        font-size: 9px;
-        padding: 5px 6px;
-        min-height: 28px;
-        border-radius: 8px;
-    }
-    
-    .options {
-        gap: 12px;
-    }
-    
-    .option {
-        height: 380px;
-    }
-}
-
-@media (max-width: 360px) {
-    .challenge-update-btn {
-        padding: 6px 12px;
-        font-size: 10px;
-    }
-    
-    .challenge-display {
-        top: 190px;
-        font-size: 8px;
-        padding: 4px 5px;
-        min-height: 26px;
-    }
-    
-    .option {
-        height: 360px;
-    }
-}
-
-/* Состояния для лучшей доступности */
-.challenge-update-btn:focus {
-    outline: 2px solid rgba(255, 255, 255, 0.5);
-    outline-offset: 2px;
-}
-
 /* Индикатор кликабельности (рука) */
 .challenge-display::after {
     content: '🔄';
@@ -216,6 +155,7 @@
     font-size: 12px;
     opacity: 0.7;
     transition: opacity 0.3s ease;
+    z-index: 30;
 }
 
 .challenge-display:hover::after {
@@ -278,7 +218,14 @@
     }
 }
 
-/* Mobile responsive */
+/* Убедимся, что карточка имеет правильное позиционирование */
+.option {
+    position: relative;
+    overflow: visible;
+    height: 400px; /* Фиксированная высота */
+}
+
+/* Mobile responsive - СОХРАНЯЕМ ОДИНАКОВЫЕ РАЗМЕРЫ */
 @media (max-width: 1024px) {
     .challenge-display {
         top: 250px;
@@ -286,12 +233,22 @@
         right: 10px;
         font-size: 11px;
         padding: 8px 10px;
+        height: 36px; /* ФИКСИРОВАННАЯ ВЫСОТА */
         min-height: 36px;
+    }
+    
+    .challenge-display span {
+        max-height: 32px;
+        font-size: 10px;
     }
     
     .challenge-update-btn {
         padding: 12px 20px;
         font-size: var(--font-size-md);
+    }
+    
+    .option {
+        height: 380px;
     }
 }
 
@@ -313,8 +270,18 @@
         right: 8px;
         font-size: 10px;
         padding: 6px 8px;
+        height: 32px; /* ФИКСИРОВАННАЯ ВЫСОТА */
         min-height: 32px;
         border-width: 1px;
+    }
+    
+    .challenge-display span {
+        max-height: 28px;
+        font-size: 9px;
+    }
+    
+    .option {
+        height: 360px;
     }
 }
 
@@ -331,8 +298,14 @@
         right: 6px;
         font-size: 9px;
         padding: 5px 6px;
+        height: 28px; /* ФИКСИРОВАННАЯ ВЫСОТА */
         min-height: 28px;
         border-radius: 8px;
+    }
+    
+    .challenge-display span {
+        max-height: 24px;
+        font-size: 8px;
     }
     
     .options {
@@ -340,7 +313,7 @@
     }
     
     .option {
-        height: 380px;
+        height: 340px;
     }
 }
 
@@ -354,11 +327,17 @@
         top: 190px;
         font-size: 8px;
         padding: 4px 5px;
+        height: 26px; /* ФИКСИРОВАННАЯ ВЫСОТА */
         min-height: 26px;
     }
     
+    .challenge-display span {
+        max-height: 22px;
+        font-size: 7px;
+    }
+    
     .option {
-        height: 360px;
+        height: 320px;
     }
 }
 
@@ -366,4 +345,81 @@
 .challenge-update-btn:focus {
     outline: 2px solid rgba(255, 255, 255, 0.5);
     outline-offset: 2px;
+}
+
+/* Убедимся, что плашка не перекрывает другие элементы */
+.option .main {
+    z-index: 10;
+    position: relative;
+}
+
+.option .attribute {
+    z-index: 10;
+    position: relative;
+}
+
+/* Гарантируем, что плашка будет поверх фона */
+.option::before {
+    z-index: 1;
+}
+
+.challenge-display {
+    z-index: 20;
+}
+
+/* Фикс для мобильных устройств */
+@media (hover: none) {
+    .challenge-display:hover::before {
+        display: none;
+    }
+    
+    .challenge-display:hover::after {
+        opacity: 1;
+    }
+    
+    .challenge-display:active {
+        transform: scale(0.98);
+    }
+}
+
+/* Поддержка темной темы */
+@media (prefers-color-scheme: dark) {
+    .challenge-display {
+        background: linear-gradient(135deg, rgba(76, 95, 175, 0.95) 0%, rgba(88, 56, 121, 0.95) 100%);
+        border-color: rgba(255, 255, 255, 0.2);
+    }
+    
+    .challenge-display:hover {
+        background: linear-gradient(135deg, rgba(76, 95, 175, 1) 0%, rgba(88, 56, 121, 1) 100%);
+    }
+}
+
+/* Гарантируем одинаковое отображение во всех браузерах */
+.challenge-display {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-smoothing: antialiased;
+}
+
+.challenge-display span {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-height: 36px;
+    line-height: 1.2;
+    text-align: center;
+    width: 100%;
+    padding: 0 5px;
+    box-sizing: border-box;
+}
+
+/* Для мобильных устройств */
+@media (max-width: 768px) {
+    .challenge-display span {
+        max-height: 28px;
+        font-size: 9px;
+        padding: 0 3px;
+    }
 }
