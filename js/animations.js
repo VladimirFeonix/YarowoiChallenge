@@ -59,6 +59,11 @@ export function startSlotMachineAnimation() {
             }, spinInterval);
         }, index * staggerDelay);
     });
+    setTimeout(() => {
+    if (window.challengeSystem) {
+        window.challengeSystem.updateCardChallenge(card);
+    }
+}, 400);
 }
 
 export function startSingleSlotAnimation(card, attribute) {
@@ -98,4 +103,9 @@ export function startSingleSlotAnimation(card, attribute) {
             }, 400);
         }
     }, spinInterval);
+    setTimeout(() => {
+    if (window.challengeSystem) {
+        window.challengeSystem.updateCardChallenge(card);
+    }
+}, 400);
 }

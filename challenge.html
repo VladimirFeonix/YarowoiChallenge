@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Dota 2 Hero Randomizer | Yarowoi Challenge</title>
+    <link rel="stylesheet" href="./style/variables.css">
+    <link rel="stylesheet" href="./style/global.css">
+    <link rel="stylesheet" href="./style/header.css">
+    <link rel="stylesheet" href="./style/cards.css">
+    <link rel="stylesheet" href="./style/attributes.css">
+    <link rel="stylesheet" href="./style/button.css">
+    <link rel="stylesheet" href="./style/footer.css">
+    <link rel="stylesheet" href="./style/animations.css">
+    <link rel="stylesheet" href="./style/responsive.css">
+    <link rel="stylesheet" href="./style/special-effects.css">
+    <link rel="stylesheet" href="/style/challange.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Дополнительные глобальные стили */
+        :root {
+            --dota-red: #e83119;
+            --dota-blue: #1e88e5;
+            --dota-gold: #ffb700;
+            --dota-dark: #0f1923;
+        }
+        
+        body {
+            background: radial-gradient(circle at center, var(--dota-dark) 0%, #000 100%);
+            color: white;
+            font-family: 'Radiance', 'Arial', sans-serif;
+            overflow-x: hidden;
+        }
+        
+        /* Анимация фона */
+        @keyframes backgroundPulse {
+            0% { background-size: 100% 100%; }
+            50% { background-size: 110% 110%; }
+            100% { background-size: 100% 100%; }
+        }
+        
+        .background-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/backgrounds/greyfade.jpg') no-repeat center center;
+            background-size: cover;
+            opacity: 0.15;
+            z-index: -1;
+            animation: backgroundPulse 30s infinite alternate;
+        }
+    </style>
+</head>
+<body>
+    <div class="background-overlay"></div>
+    
+    <!-- Шапка сайта -->
+    <header class="site-header">
+        <div class="top-sign">YAROWOI CHALLENGE</div>
+        <div class="header-container">
+            <div class="logo">
+                <h1 class="name">HERO RANDOMIZER</h1>
+                <p class="subtitle">Dota 2 Yarowoi Challenge</p>
+            </div>
+        </div>
+    </header>
+   
+    <div class="options" id="heroContainer">
+        <!-- Герои будут добавляться динамически -->
+    </div>
+
+    <button class="randomize-btn" onclick="randomizeHeroes()">
+        <i class="fas fa-random"></i> RANDOMIZE HEROES
+    </button>
+
+    <footer class="developer-credits">
+        <p>Developed with <i class="fas fa-heart" style="color: var(--dota-red);"></i> by <span class="developer-names">CHESHIRE & GRIHLADIN</span></p>
+        <p class="challenge-text">Reach Titan rank using only random heroes!</p>
+    </footer>
+
+    <script type="module" src="./js/main.js"></script>
+    <audio id="slotMachineSound" src="/sounds/slot-machine-spin.mp3" preload="auto"></audio>
+</body>
+</html>

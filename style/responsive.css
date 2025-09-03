@@ -53,6 +53,11 @@
         font-size: 16px;
         letter-spacing: 1.5px;
     }
+    
+    .developer-credits {
+        margin-top: 25px;
+        margin-bottom: 15px;
+    }
 }
 
 /* Mobile Landscape and Small Tablets */
@@ -215,14 +220,6 @@
     }
 }
 
-/* Touch Device Optimizations */
-@media (hover: none) {
-    /* Disable hover effects for touch devices */
-    .option:hover::after {
-        display: none;
-    }
-}
-
 /* Extra Small Mobile Devices */
 @media (max-width: 360px) {
     .top-sign {
@@ -267,5 +264,135 @@
     
     .main {
         font-size: 0.8rem;
+    }
+    
+    .developer-credits {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        padding: 10px;
+    }
+}
+
+/* Tablet Styles */
+@media (max-width: 1024px) {
+    .option {
+        height: 380px;
+    }
+    
+    .hero-image {
+        height: 170px;
+    }
+    
+    .attribute-info {
+        top: 200px;
+    }
+    
+    .challenge-display {
+        top: 240px;
+    }
+}
+
+/* Mobile Landscape and Small Tablets */
+@media (max-width: 768px) {
+    .option {
+        height: 340px;
+    }
+    
+    .hero-image {
+        height: 150px;
+        top: 10px;
+        left: 10px;
+        width: calc(100% - 20px);
+    }
+    
+    .attribute-info {
+        top: 170px;
+        left: 12px;
+        right: 12px;
+    }
+    
+    .challenge-display {
+        top: 210px;
+        left: 10px;
+        right: 10px;
+    }
+    
+    .label {
+        bottom: 10px;
+        left: 10px;
+        right: 10px;
+        height: 55px;
+        padding: 12px 15px;
+    }
+}
+
+/* Mobile Portrait */
+@media (max-width: 480px) {
+    .option {
+        height: 320px;
+    }
+    
+    .hero-image {
+        height: 130px;
+        top: 8px;
+        left: 8px;
+        width: calc(100% - 16px);
+    }
+    
+    .attribute-info {
+        top: 150px;
+        left: 10px;
+        right: 10px;
+        padding: 4px 8px;
+    }
+    
+    .challenge-display {
+        top: 180px;
+        left: 8px;
+        right: 8px;
+        font-size: 9px;
+        padding: 5px 6px;
+    }
+    
+    .label {
+        bottom: 8px;
+        left: 8px;
+        right: 8px;
+        height: 50px;
+        padding: 10px 12px;
+    }
+    
+    .main {
+        font-size: 0.9rem;
+    }
+}
+
+/* Extra Small Mobile Devices */
+@media (max-width: 360px) {
+    .option {
+        height: 300px;
+    }
+    
+    .hero-image {
+        height: 120px;
+    }
+    
+    .attribute-info {
+        top: 140px;
+    }
+    
+    .challenge-display {
+        top: 170px;
+        font-size: 8px;
+        padding: 4px 5px;
+    }
+    
+    .label {
+        height: 45px;
+        padding: 8px 10px;
+    }
+    
+    .main {
+        font-size: 0.85rem;
     }
 }

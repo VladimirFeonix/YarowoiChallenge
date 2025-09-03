@@ -10,7 +10,7 @@
 /* Pulsing "CHOOSE ME" effect for Marci */
 .marci-choose-me {
     position: absolute;
-    top: 68%;
+    top: 50%; /* Центрируем по вертикали */
     left: 50%;
     transform: translate(-50%, -50%);
     background: linear-gradient(45deg, #ff0066, #ff6600, #ffcc00, #ff0066);
@@ -25,7 +25,7 @@
     letter-spacing: 1.5px;
     box-shadow: 0 0 30px rgba(255, 0, 102, 0.9);
     animation: marciPulse 1.5s ease-in-out infinite, marciGradient 3s ease infinite;
-    z-index: 10;
+    z-index: 6; /* Ниже чем challenge-display (z-index: 5) */
     border: 3px solid rgba(255, 255, 255, 0.9);
     text-align: center;
     white-space: nowrap;

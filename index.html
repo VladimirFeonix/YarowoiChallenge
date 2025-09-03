@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -14,8 +15,10 @@
     <link rel="stylesheet" href="/YarowoiChallenge/style/animations.css">
     <link rel="stylesheet" href="/YarowoiChallenge/style/responsive.css">
     <link rel="stylesheet" href="/YarowoiChallenge/style/special-effects.css">
+    <link rel="stylesheet" href="/YarowoiChallenge/style/challange.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
+
 <body>
     <!-- Шапка сайта -->
     <header class="site-header">
@@ -23,27 +26,36 @@
         <div class="header-container">
             <div class="logo">
                 <h1 class="name">HERO randomizer</h1>
-                <p class="subtitle">Yarowoi Challenge</p>
-            </div>
+                <a href="https://github.com/VladimirFeonix/YarowoiChallenge/blob/main/README.md"><p class="subtitle">Yarowoi Challenge</p></a>
         </div>
     </header>
-   
+
+            <!-- Кнопка обновления челленджей -->
+        <div class="challenge-button-container">
+            <button class="challenge-update-btn" id="updateChallengesBtn">
+                <i class="fas fa-sync-alt"></i>
+                Rerandom Game Challenges
+            </button>
+        </div>
+
     <div class="options" id="heroContainer">
         <!-- Герои будут добавляться динамически -->
     </div>
 
     <button class="randomize-btn" onclick="randomizeHeroes()">RANDOMIZE HEROES</button>
+    
     <div class="volume-control">
-            <i class="fas fa-volume-up volume-icon" style="color: white;"></i>
-            <input type="range" class="volume-slider" min="0" max="1" step="0.05" value="0.5">
-        </div>
+        <i class="fas fa-volume-up volume-icon" style="color: white;"></i>
+        <input type="range" class="volume-slider" min="0" max="1" step="0.05" value="0.5">
+    </div>
 
     <footer class="developer-credits">
-        <p>Developed by <span class="developer-names"><a href="https://t.me/Cheshire6" target="_blank" style="text-decoration: none; color: inherit;">CHESHIRE</a> and GRIHLADIN</span></p>
+        <p>Developed by <span class="developer-names"><a href="https://t.me/Cheshire6" target="_blank"
+                    style="text-decoration: none; color: inherit;">CHESHIRE</a> and GRIHLADIN</span></p>
     </footer>
 
     <script type="module" src="/YarowoiChallenge/js/main.js"></script>
-    <!--<audio id="spinSound" src="/sounds/spin.mp3" preload="auto"></audio>
-    <audio id="stopSound" src="/sounds/stop.mp3" preload="auto"></audio>-->
+    <script type="module" src="/YarowoiChallenge/js/challenges.js"></script>
 </body>
+
 </html>

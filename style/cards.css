@@ -30,7 +30,7 @@
 .option {
     position: relative;
     overflow: hidden;
-    height: 380px;
+    height: 420px;
     border-radius: var(--radius-xl);
     box-shadow: var(--shadow-lg);
     user-select: none;
@@ -90,7 +90,7 @@
     top: var(--spacing-md);
     left: var(--spacing-md);
     width: calc(100% - 30px);
-    height: 205px;
+    height: 200px;
     object-fit: cover;
     object-position: center;
     z-index: 0;
@@ -100,7 +100,7 @@
 /* Attribute Information Section */
 .attribute-info {
     position: absolute;
-    top: 230px;
+    top: 225px;
     left: var(--spacing-lg);
     right: var(--spacing-lg);
     display: flex;

@@ -33,12 +33,18 @@ export function createHeroCard(attribute) {
                  alt="${attribute}" title="${capitalizeFirst(attribute)}">
             <div class="attribute-name">${capitalizeFirst(attribute)}</div>
         </div>
+        <div class="challenge-display"></div>
         <div class="label">
             <div class="info">
                 <div class="main">${hero.name}</div>
             </div>
         </div>
     `;
+
+        // Обновляем челлендж при создании карточки
+    if (window.challengeSystem) {
+        window.challengeSystem.updateCardChallenge(card);
+    }
     
     // Handle special effect for Marci
     handleMarciSpecialEffect(card, hero.name);
@@ -90,6 +96,11 @@ export function updateCardContent(card, hero, attribute) {
         heroImg.src = hero.image;
         heroImg.alt = hero.name;
         heroName.textContent = hero.name;
+
+        // Обновляем челлендж для карточки
+        if (window.challengeSystem) {
+            window.challengeSystem.updateCardChallenge(card);
+        }
         
         // Special effect for Marci
         handleMarciSpecialEffect(card, hero.name);
@@ -120,3 +131,4 @@ export function handleMarciSpecialEffect(card, heroName) {
         card.appendChild(chooseMeElement);
     }
 }
+

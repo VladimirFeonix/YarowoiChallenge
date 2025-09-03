@@ -21,3 +21,14 @@ body {
     font-family: var(--font-family);
     transition: var(--transition-normal);
 }
+
+/* Main content container */
+.main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    width: 100%;
+    padding: 20px;
+}
